@@ -1,3 +1,3 @@
 require.config({
-    baseUrl: "https://googledrive.com/host/0B2-ABlKEAOVAWUlHZkZlYmVqTnc/",
+    baseUrl: "https://krerkkiat.github.io/dekd/article-source-editor/",
 });
