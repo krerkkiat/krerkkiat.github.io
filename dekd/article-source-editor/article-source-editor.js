@@ -5,6 +5,7 @@ License: MIT
 Based on Dek-D's Story Editor
 Powered by CodeMirror, js-beautify, require.js, Font Awesome, and jQuery
 */
+//var editorHost = 'http://localhost:8000/';
 var editorHost = 'https://krerkkiat.github.io/dekd/article-source-editor/';
 
 var Util = {};
@@ -47,7 +48,7 @@ ArticleSourceEditor._createContainer = function () {
     this.infoDialog = document.createElement('div');
     this.infoDialog.id = 'infoDialog';
     // Too lazy to create elements.
-    this.infoDialog.innerHTML = '<h3 class="title">About</h3><div class="content"><p><b>Article\'s Source Editor</b></p><p>Author: Krerkkiat Chusap</p><p>License: MIT</p><p>Based on Dek-D\'s Story Editor</p><p>Powered by <a href="http://codemirror.net/" target="blank">CodeMirror</a>, <a href="https://github.com/beautify-web/js-beautify" target="blank">js-beautify</a>, <a href="http://requirejs.org/" target="blank">require.js</a>, <a href="http://fortawesome.github.io/Font-Awesome" target="blank">Font Awesome</a>, and <a href="http://jquery.com/" target="blank">jQuery</a></p></div>';
+    this.infoDialog.innerHTML = '<h3 class="title">About</h3><div class="content"><p><b>Article\'s Source Editor</b></p><p>Author: Krerkkiat Chusap</p><p>License: MIT</p><p>Based on Dek-D\'s Story Editor</p><p>Powered by <a href="http://codemirror.net/" target="_blank">CodeMirror</a>, <a href="https://github.com/beautify-web/js-beautify" target="_blank">js-beautify</a>, <a href="http://requirejs.org/" target="_blank">require.js</a>, <a href="http://fortawesome.github.io/Font-Awesome" target="_blank">Font Awesome</a>, and <a href="http://jquery.com/" target="_blank">jQuery</a>.</p><p>Code can be found at <a href="https://github.com/krerkkiat/article-source-editor" target="_blank">github</a>.</p></div>';
     
     this.backdrop = document.createElement('div');
     this.backdrop.id = 'aaeBackdrop';
