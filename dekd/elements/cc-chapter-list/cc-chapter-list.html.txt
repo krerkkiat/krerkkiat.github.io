@@ -1,0 +1,76 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/paper-input/paper-input.html">
+
+<dom-module id="cc-chapter-list">
+  <template>
+    <paper-input id="searchBox" bind-value="{{match}}" placeholder="ค้นหาตอนที่ต้องการได้ที่นี่">
+    <content></content>
+  </template>
+  
+  <script>
+    Polymer({
+      is: 'cc-chapter-list',
+      extends: 'ul',
+      properties: {
+        match: {
+          type: String,
+          observer: '_matchChanged'
+        },
+        pinEnabled: {
+          type: Boolean,
+          reflectToAttribute: true,
+          observer: '_pinEnabledChanged'
+        },
+        _pinRegex: {
+          type: Object,
+          value: function() {
+            return /\[.*pin.*\].+/ig;
+          }
+        },
+        _categoryRegex: {
+          type: Object,
+          value: function() {
+            return /\[(.*)\]/ig;
+          }
+        }
+      },
+      _matchChanged: function(newValue) {
+        if (newValue === '') {
+          for (var i = 1; i < this.children.length; i++) {
+            this.children[i].style.display = 'block';
+          }
+        } else {
+          for (var i = 1; i < this.children.length; i++) {
+            if (this.children[i].children[1].getAttribute('title').toLowerCase().indexOf(newValue.toLowerCase()) === -1) {
+              this.children[i].style.display = 'none';
+            } else {
+              this.children[i].style.display = 'block';
+            }
+          }
+        }
+      },
+      _pinEnabledChanged: function(newValue) {
+        var linkElement;
+        var linkText;
+        var testResult;
+        
+        if (newValue) {
+          var lastPinnedItem = 0;
+          for (var i = 1; i < this.children.length; i++) {
+            linkElement = this.children[i].querySelector('a.chapter-item-name');
+            testResult = this._pinRegex.test(linkElement.text);
+            if (testResult) {
+              // Customize it.
+              linkElement.innerHTML = '<i class="fa fa-thumb-tack" style="color: green;"></i> ' + linkElement.innerHTML.trim();
+              
+              // Move element.
+              this.children[i].parentElement.insertBefore(this.children[i], this.children[lastPinnedItem + 1]);
+              i--;
+              lastPinnedItem++;
+            }
+          }
+        }
+      }
+    });
+  </script>
+</dom-module>
