@@ -10,6 +10,10 @@
       input#originalUrl {
         width: 300px;
       }
+      input {
+        margin-left: 5px;
+        margin-top: 5px;
+      }
     </style>
   </head>
   <body>
@@ -69,10 +73,14 @@
           // https://youtu.be/uuNTO31FlY8
           var videoId = '';
           var pattern = /v=([a-zA-Z0-9_]+)/;
+          var pattern2 = /https:\/\/youtu.be\/([a-zA-Z0-9_]+)/;
 
           var res = pattern.exec(this.state.originalUrl);
+          var res2 = pattern2.exec(this.state.originalUrl);
           if (res && res.length == 2) {
             videoId = res[1];
+          } else if (res2 && res2.length == 2) {
+            videoId = res2[1];
           }
 
 
@@ -111,8 +119,9 @@
 
           return (
             <div id="">
-              <h3>Youtube's Player with Parameters</h3>
+              <h2>Youtube's Player with Parameters</h2>
               <div>
+                <h3>Options</h3>
                 <input type="text"
                   id="originalUrl"
                   onChange={this.onOriginalUrlChange}
@@ -147,6 +156,7 @@
                   onChange={this.onAutoplayTimeFlagChange}/>Autoplay
               </div>
               <div>
+                <h3>Final URL</h3>
                 <p>{finalUrl}</p>
               </div>
             </div>
