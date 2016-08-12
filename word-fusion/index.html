@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Dragula</title>
+
+    <link rel="stylesheet" type="text/css" href="bower_components/dragula.js/dist/dragula.min.css" />
+    <script type="text/javascript" src="bower_components/dragula.js/dist/dragula.min.js"></script>
+
+    <style type="text/css">
+      .word-list {
+        background-color: rgba(45, 46, 119, 0.72);
+        padding: 10px;
+        margin: 5px;
+        min-height: 3em;
+      }
+
+      .word {
+        display: inline-block;
+
+        background-color: rgba(255, 143, 25, 1);
+        padding: 5px;
+        margin: 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrapper">
+      <h3>Word List (hint: they're draggable!)</h3>
+      <div class="word-list source">
+
+      </div>
+      <h3>Combination Tray</h3>
+      <div class="word-list destination">
+
+      </div>
+      <div class="combination-result">
+        <h4></h4>
+        <p></p>
+      </div>
+    </div>
+
+    <script type="text/javascript">
+      var data = [
+        {
+          'full_word': 'นัก|ร้อง',
+          'description': 'It means singer.'
+        },
+        {
+          'full_word': 'นัก|เรียน',
+          'description': 'A student, of course!'
+        },
+        {
+          'full_word': 'นัก|เต้น',
+          'description': 'Dancer.'
+        },
+        {
+          'full_word': 'นัก|พูด',
+          'description': 'Speaker.'
+        },
+        {
+          'full_word': 'พูด|มาก',
+          'description': 'Speaker.'
+        },
+        {
+          'full_word': 'ช่าง|ประปา',
+          'description': 'Plumber (not sure lol).'
+        },
+        {
+          'full_word': 'ช่าง|บ่น',
+          'description': 'Well, a type of person :('
+        },
+        {
+          'full_word': 'ช่าง|พูด',
+          'description': 'The one who talks a LOT.'
+        },
+        {
+          'full_word': 'ร้อน|ใจ',
+          'description': 'Nervous (not sure tho :D).'
+        },
+        {
+          'full_word': 'ร้อน|ตัว',
+          'description': '...'
+        },
+        {
+          'full_word': 'ตัว|ร้อน',
+          'description': '(not really sure...) Have a cold.'
+        },
+        {
+          'full_word': 'ร้อง|เพลง',
+          'description': 'Sing a song.'
+        },
+        {
+          'full_word': 'เต้น|รำ',
+          'description': 'Dancing.'
+        },
+        {
+          'full_word': 'เสื้อ|กล้าม',
+          'description': ''
+        },
+        {
+          'full_word': 'นัก|กล้าม',
+          'description': ''
+        },
+        {
+          'full_word': 'มือ|แข็ง',
+          'description': ''
+        },
+        {
+          'full_word': 'น้ำ|แข็ง',
+          'description': 'Ice.'
+        },
+        {
+          'full_word': 'น้ำ|ขวด',
+          'description': 'Bottled water.'
+        },
+        {
+          'full_word': 'น้ำ|ดื่ม',
+          'description': 'Drinking water.'
+        },
+        {
+          'full_word': 'ดื่ม|น้ำ',
+          'description': 'Drink water.'
+        },
+        {
+          'full_word': 'ต้ม|ยำ',
+          'description': 'A type of soup.'
+        },
+        {
+          'full_word': 'ต้ม|น้ำ',
+          'description': ''
+        },
+        {
+          'full_word': 'น้ำ|ต้ม',
+          'description': ''
+        },
+        {
+          'full_word': 'แบบ|เรียน',
+          'description': ''
+        },
+        {
+          'full_word': 'หนังสือ|เรียน',
+          'description': ''
+        },
+        {
+          'full_word': 'เรียน|หนังสือ',
+          'description': 'Studying.'
+        },
+        {
+          'full_word': 'ชาว|บ้าน',
+          'description': ''
+        },
+        {
+          'full_word': 'ชาว|เมือง',
+          'description': ''
+        },
+        {
+          'full_word': 'หมอ|ผี',
+          'description': ''
+        },
+        {
+          'full_word': 'หมอ|ฟัน',
+          'description': ''
+        },
+      ];
+
+      function shuffle(o){ //v1.0 [http://bit.ly/1l6LGQT]
+        for(var j, x, i = o.length; i; j = Math.floor(Math.random() * i),
+          x = o[--i], o[i] = o[j], o[j] = x);
+        return o;
+      };
+
+      var fullWords = [];
+      var wordList = [];
+      data.forEach(function (curr, idx, arr) {
+        if (curr['full_word'] === '') {
+          return;
+        }
+        // Save full word.
+        fullWords.push(curr['full_word'].replace('|', ''));
+        // Split word out.
+        var words = curr['full_word'].split('|');
+        wordList = wordList.concat(words);
+      });
+
+      // Shuffle, and remove duplicated words.
+      var wordList = new Set(shuffle(wordList));
+
+      var wordListElement = document.querySelector('.source');
+      wordList.forEach(function (curr, idx, arr) {
+        var wordElement = document.createElement('div');
+        wordElement.textContent = curr;
+        wordElement.className = 'word';
+        wordListElement.appendChild(wordElement);
+      });
+
+
+      // Make it draggable.
+      var drake = dragula([document.querySelector('.source'), document.querySelector('.destination')]);
+      drake.on('drop', function (el, target, source, sibling) {
+        // TODO: It include the source and destination.
+
+        var resultTitleElement = document.querySelector('.combination-result h4');
+        var resultDescriptionElement = document.querySelector('.combination-result p');
+
+        var words = Array.from(target.children).map(function (curr, idx, arr) {
+          return curr.textContent;
+        });
+
+        // Find the word index in data.
+        var idx = -1;
+        var word = words.join('|');
+        for (var i = 0; i < data.length; i++) {
+          if (word === data[i].full_word) {
+            idx = i;
+            break;
+          }
+        }
+
+        if (idx != -1) {
+          resultTitleElement.textContent = words.join('');
+          resultDescriptionElement.textContent = data[idx].description;
+        } else {
+          resultTitleElement.textContent = '';
+          resultDescriptionElement.textContent = '';
+        }
+      });
+    </script>
+
+  </body>
+</html>
