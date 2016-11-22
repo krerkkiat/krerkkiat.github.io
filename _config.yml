@@ -3,7 +3,7 @@ permalink:           pretty
 
 # Setup
 title:               Krerkkiat Chusap
-url:                 http://getpoole.com
+url:                 https://github.com/krerkkiat
 paginate:            1
 baseurl:             ""
 
@@ -20,6 +20,7 @@ author:
   url:               https://twitter.com/krerkkiat_c
 
 # Custom vars
+analytics_id:        UA-87801947-1
 
 # Gems
 gems:
