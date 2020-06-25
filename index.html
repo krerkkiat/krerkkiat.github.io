@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Krerkkiat Chusap</title>
+    <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.css"/>
     <link rel="stylesheet" href="base.css">
     <script defer src="https://unpkg.com/rough-notation/lib/rough-notation.iife.js"></script>
     <script defer src="./script.js"></script>
@@ -23,6 +24,38 @@
     <section>
         <h1>Literature</h1>
     </section>
+    <section>
+        <h1>Account</h1>
+        <p><span id="signed-in" style="display: none;">Signed in</span><span id="signed-out">Signed out</span></p>
+        <div id="loader">Loading...</div>
+        <div id="firebaseui-auth-container"></div>
+        <a href="#" id="sign-out-btn" style="display: none;">Sign out</a>
+    </section>
 </div>
+<!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/7.15.4/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.15.4/firebase-analytics.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.15.4/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.15.4/firebase-database.js"></script>
+<script src="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.js"></script>
+
+<script>
+    // Your web app's Firebase configuration
+    var firebaseConfig = {
+        apiKey: "AIzaSyC76y9SpTbqkz_yu7h97HXZ4D0iFeFP0Hc",
+        authDomain: "krerkkiat-github-io.firebaseapp.com",
+        databaseURL: "https://krerkkiat-github-io.firebaseio.com",
+        projectId: "krerkkiat-github-io",
+        storageBucket: "krerkkiat-github-io.appspot.com",
+        messagingSenderId: "527773591514",
+        appId: "1:527773591514:web:e6718a0a7dfc549b2e02e3",
+        measurementId: "G-L6YFR94N8B"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    firebase.analytics();
+    var ui = new firebaseui.auth.AuthUI(firebase.auth());
+    var database = firebase.database();
+</script>
 </body>
 </html>
