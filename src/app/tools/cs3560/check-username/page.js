@@ -102,7 +102,7 @@ function Inputs() {
 
 export default function CheckUsernameTool() {
   return (
-    <main className="flex min-h-screen flex-col items-center p-24">
+    <main className="flex min-h-screen flex-col items-center p-3 md:p-24">
       <Inputs></Inputs>
     </main>
   );
