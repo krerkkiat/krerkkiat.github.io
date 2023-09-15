@@ -1,48 +1,139 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Octokit, App } from "https://esm.sh/octokit";
 
 const GITHUB_PROFILE_BASE_URL = "https://api.github.com/users";
-const CODEWARS_PROFILE_BASE_URL = "https://www.codewars.com/users";
+const CODEWARS_PROFILE_BASE_URL = "https://www.codewars.com/api/v1/users";
+
+const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+async function checkGithubUsername(username) {
+  try {
+    let response = await fetch(`${GITHUB_PROFILE_BASE_URL}/${username}`);
+    if (response.ok) {
+      console.log(`${username} is valid on GitHub`);
+      return {
+        username: username,
+        website: "github",
+        isValid: true,
+        isSuccess: true,
+        statusCode: response.status,
+      };
+    } else if (response.status === 404) {
+      console.log(`${username} is NOT valid on GitHub`);
+      return {
+        username: username,
+        website: "github",
+        isValid: false,
+        isSuccess: true,
+        statusCode: response.status,
+      };
+    }
+  } catch (err) {
+    console.log(err);
+    return {
+      username: username,
+      website: "github",
+      isValid: false,
+      isSuccess: false,
+    };
+  }
+}
+
+async function checkCodewarsUsername(username) {
+  try {
+    let response = await fetch(`${CODEWARS_PROFILE_BASE_URL}/${username}`);
+    if (response.ok) {
+      console.log(`${username} is valid on Codewars`);
+      return {
+        username: username,
+        website: "codewars",
+        isValid: true,
+        isSuccess: true,
+        statusCode: response.status,
+      };
+    } else if (response.status === 404) {
+      console.log(`${username} is NOT valid on Codewars`);
+      return {
+        username: username,
+        website: "codewars",
+        isValid: false,
+        isSuccess: true,
+        statusCode: response.status,
+      };
+    }
+  } catch (err) {
+    console.log(err);
+    return {
+      username: username,
+      website: "codewars",
+      isValid: false,
+      isSuccess: false,
+    };
+  }
+}
 
 function Inputs() {
-  const [username, setUsername] = useState("");
-  const [selectedWebsite, setSelectedWebsite] = useState("both");
+  const [rawUsername, setRawUsername] = useState("");
+  const [selectedWebsite, setSelectedWebsite] = useState("github");
   const [checkResult, setCheckResult] = useState([]);
+  const validResultTextarea = useRef(null);
+  const invalidResultTextarea = useRef(null);
+
+  useEffect(() => {
+    validResultTextarea.current.scrollTop =
+      validResultTextarea.current.scrollHeight;
+    invalidResultTextarea.current.scrollTop =
+      invalidResultTextarea.current.scrollHeight;
+  });
 
   async function handleCheckBtn() {
-    console.log(username);
-    console.log(selectedWebsite);
-    let result = [];
+    let results = checkResult;
 
-    if (selectedWebsite === "github" || selectedWebsite === "both") {
-      try {
-        let response = await fetch(`${GITHUB_PROFILE_BASE_URL}/${username}`);
-        if (response.ok) {
-          console.log(`${username} is valid on GitHub`);
-          result.push({ username: username, website: "github", isValid: true, isSuccess: true });
-        } else {
-          console.log(`${username} is NOT valid on GitHub`);
-          result.push({ username: username, website: "github", isValid: false, isSuccess: true });
-        }
-      } catch (err) {
-        console.log(err);
-        result.push({ username: username, website: "github", isValid: false, isSuccess: false });
+    let usernames = [];
+    if (rawUsername.includes("\n")) {
+      usernames = rawUsername.split("\n").map((val) => val.trim());
+    } else if (rawUsername.includes(",")) {
+      usernames = rawUsername.split(",").map((val) => val.trim());
+    } else {
+      usernames.push(rawUsername);
+    }
+
+    for (let username of usernames) {
+      let result = null;
+      if (selectedWebsite === "github") {
+        result = await checkGithubUsername(username);
+      } else if (selectedWebsite === "codewars") {
+        result = await checkCodewarsUsername(username);
       }
+      results = [...results, result];
+      setCheckResult(results);
+      await sleep(2000);
     }
-
-    if (selectedWebsite === "codewars" || selectedWebsite === "both") {
-    }
-
-    setCheckResult(result);
   }
 
+  const validResultText = checkResult
+    .map((val, idx, arr) => {
+      if (val.isValid) {
+        return `[${val.website}]: ${val.username} (${val.statusCode})`;
+      }
+    })
+    .join("\n").trim();
+  const invalidResultText = checkResult
+    .map((val, idx, arr) => {
+      if (!val.isValid) {
+        return `[${val.website}]: ${val.username} (${val.statusCode || 'offline/network error'})`;
+      }
+    })
+    .join("\n").trim();
+
   return (
-    <div className="flex flex-wrap flex-row bg-violet-50 p-10 rounded-lg w-full md:w-1/2">
-      <h1 className="text-2xl">Check Username Tool</h1>
-      <div className="py-12">
-        <div className="mt-8 max-w-md">
+    <div className="flex flex-row justify-center grow bg-violet-50 p-10 rounded-lg w-full md:w-3/4 lg:1/2">
+      <div className="w-full py-12">
+        <h1 className="text-2xl py-3">Check Username Tool</h1>
+        <p>Check if the username(s) exist on GitHub or Codewars or not.</p>
+        <div className="mt-8">
           <div className="grid grid-cols-1 gap-6">
             <label className="block">
               <span className="text-gray-700">Username(s)</span>
@@ -50,21 +141,19 @@ function Inputs() {
                 id="usernameTxt"
                 className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                 rows="4"
-                value={username}
+                value={rawUsername}
                 onChange={(e) => {
-                  setUsername(e.target.value);
+                  setRawUsername(e.target.value);
                 }}
               ></textarea>
             </label>
             <label className="block">
               <span className="text-gray-700">What website to check?</span>
               <select
-                id="websiteSel"
                 value={selectedWebsite}
                 onChange={(e) => setSelectedWebsite(e.target.value)}
                 className="block w-full mt-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
               >
-                <option value="both">Both</option>
                 <option value="github">GitHub</option>
                 <option value="codewars">Codewars</option>
               </select>
@@ -80,17 +169,21 @@ function Inputs() {
             <label className="block">
               <span className="text-gray-700">Valid Usernames</span>
               <textarea
+                ref={validResultTextarea}
                 className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                 disabled
                 rows="2"
+                value={validResultText}
               ></textarea>
             </label>
             <label className="block">
               <span className="text-gray-700">Invalid Usernames</span>
               <textarea
+                ref={invalidResultTextarea}
                 className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                 disabled
                 rows="7"
+                value={invalidResultText}
               ></textarea>
             </label>
           </div>
@@ -102,7 +195,7 @@ function Inputs() {
 
 export default function CheckUsernameTool() {
   return (
-    <main className="flex min-h-screen flex-col items-center p-3 md:p-24">
+    <main className="flex min-h-screen flex-col items-center p-3 md:p-6 lg:p-24">
       <Inputs></Inputs>
     </main>
   );
