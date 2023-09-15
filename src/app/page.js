@@ -10,7 +10,7 @@ import {
 
 function Profile() {
   return (
-    <div className="flex flex-wrap flex-row bg-violet-50 p-10 rounded-lg w-full md:w-1/2">
+    <div className="flex flex-wrap flex-row bg-violet-50 p-10 rounded-lg w-full md:w-3/4 lg:1/2">
       <Image
         src="/profile-pic.png"
         alt="profile picture"
@@ -29,28 +29,28 @@ function Profile() {
             target="_blank"
             className="p-1 m-2"
           >
-            <FontAwesomeIcon icon={faGithub} className="text-2xl md:text-5xl" />
+            <FontAwesomeIcon icon={faGithub} className="text-3xl md:text-5xl" />
           </a>
           <a
             href="https://www.linkedin.com/in/krerkkiatchusap/"
             target="_blank"
             className="p-1 m-2"
           >
-            <FontAwesomeIcon icon={faLinkedin} className="text-2xl md:text-5xl" />
+            <FontAwesomeIcon icon={faLinkedin} className="text-3xl md:text-5xl" />
           </a>
           <a
             href="https://www.instagram.com/krerkkiatchusap/"
             target="_blank"
             className="p-1 m-2"
           >
-            <FontAwesomeIcon icon={faInstagram} className="text-2xl md:text-5xl" />
+            <FontAwesomeIcon icon={faInstagram} className="text-3xl md:text-5xl" />
           </a>
           <a
             href="https://twitter.com/krerkkiat_c"
             target="_blank"
             className="p-1 m-2"
           >
-            <FontAwesomeIcon icon={faXTwitter} className="text-2xl md:text-5xl" />
+            <FontAwesomeIcon icon={faXTwitter} className="text-3xl md:text-5xl" />
           </a>
         </div>
       </div>
@@ -60,7 +60,7 @@ function Profile() {
 
 function Bio() {
   return (
-    <div className="flex flex-wrap flex-row bg-violet-50 p-10 rounded-lg w-full md:w-1/2 mt-2">
+    <div className="flex flex-wrap flex-row bg-violet-50 p-10 rounded-lg w-full md:w-3/4 lg:1/2 mt-2">
       <h1 className="text-3xl">Bio</h1>
       <p className="m-2">
         He is a graduate student at{" "}
@@ -82,7 +82,7 @@ function Bio() {
 
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col items-center p-3 md:p-24">
+    <main className="flex min-h-screen flex-col items-center p-3 md:p-6 lg:p-24">
       <Profile></Profile>
       <Bio></Bio>
     </main>
