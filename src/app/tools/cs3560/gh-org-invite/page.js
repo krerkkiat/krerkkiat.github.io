@@ -70,6 +70,23 @@ function GitHubInvitationApp() {
         GitHub Organization Invitation
       </h1>
 
+      <div class="mb-4">
+        <label htmlFor="url" class="block text-sm font-medium text-gray-700">
+          Course URL:
+        </label>
+        <input
+          type="text"
+          id="url"
+          placeholder="URL"
+          value={url}
+          onChange={(e) => {
+            setUrl(e.target.value);
+            handleParseURL();
+          }}
+          class="w-full border rounded px-3 py-2 mt-1 focus:outline-none focus:border-blue-400"
+        />
+      </div>
+
       <div className="mb-4">
         <label
           htmlFor="orgName"
@@ -88,37 +105,32 @@ function GitHubInvitationApp() {
       </div>
 
       <div class="mb-4">
-        <label for="token" class="block text-sm font-medium text-gray-700">
+        <label htmlFor="token" class="block text-sm font-medium text-gray-700">
           GitHub Personal Access Token:
         </label>
         <input
           type="password"
           id="token"
           placeholder="Your Personal Access Token"
+          value={token}
+          onChange={(e) => setToken(e.target.value)}
           class="w-full border rounded px-3 py-2 mt-1 focus:outline-none focus:border-blue-400"
         />
       </div>
 
       <div class="mb-4">
-        <label for="teamName" class="block text-sm font-medium text-gray-700">
+        <label
+          htmlFor="teamName"
+          class="block text-sm font-medium text-gray-700"
+        >
           Team Name:
         </label>
         <input
           type="text"
           id="teamName"
           placeholder="Team Name"
-          class="w-full border rounded px-3 py-2 mt-1 focus:outline-none focus:border-blue-400"
-        />
-      </div>
-
-      <div class="mb-4">
-        <label for="url" class="block text-sm font-medium text-gray-700">
-          Course URL:
-        </label>
-        <input
-          type="text"
-          id="url"
-          placeholder="URL"
+          value={teamName}
+          onChange={(e) => setTeamName(e.target.value)}
           class="w-full border rounded px-3 py-2 mt-1 focus:outline-none focus:border-blue-400"
         />
       </div>
