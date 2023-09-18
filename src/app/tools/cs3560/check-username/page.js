@@ -119,14 +119,18 @@ function Inputs() {
         return `[${val.website}]: ${val.username} (${val.statusCode})`;
       }
     })
-    .join("\n").trim();
+    .join("\n")
+    .trim();
   const invalidResultText = checkResult
     .map((val, idx, arr) => {
       if (!val.isValid) {
-        return `[${val.website}]: ${val.username} (${val.statusCode || 'offline/network error'})`;
+        return `[${val.website}]: ${val.username} (${
+          val.statusCode || "offline/network error"
+        })`;
       }
     })
-    .join("\n").trim();
+    .join("\n")
+    .trim();
 
   return (
     <div className="flex flex-row justify-center grow bg-violet-50 p-10 rounded-lg w-full md:w-3/4 lg:1/2">
@@ -161,7 +165,7 @@ function Inputs() {
             <button
               id="checkBtn"
               onClick={handleCheckBtn}
-              className="rounded-full block bg-lime-700 hover:bg-lime-600 text-white px-5 py-3 font-bold "
+              className="rounded-full block bg-lime-700 hover:bg-lime-600 text-white px-5 py-3 font-bold"
             >
               Check
             </button>
