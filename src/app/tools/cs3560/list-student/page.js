@@ -1,12 +1,16 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { Octokit, App } from "https://esm.sh/octokit";
 
 function Inputs() {
   const [url, setUrl] = useState("");
   const [courseId, setCourseId] = useState("");
-  const [courseIdParsingErrorMsg, setCourseIdParsingErrorMsg] = useState("");
+  const [courseIdParsingErrorMsg, setCourseIdParsingErrorMsg] = useState(
+    "Please enter the course ID."
+  );
+  const [apiRawResult, setapiRawResult] = useState("");
+  const [outputOption, setOutputOption] = useState("csv");
+  const [processedResult, setProcessedResult] = useState("");
 
   function handleUrlChange(event) {
     const newValue = event.target.value;
@@ -25,9 +29,6 @@ function Inputs() {
         const pathnameParts = newUrlObj.pathname.split("/");
         const courseIndex = pathnameParts.indexOf("courses");
 
-        console.log(pathnameParts);
-        console.log(courseIndex);
-
         if (courseIndex !== -1 && courseIndex + 1 < pathnameParts.length) {
           setCourseId(pathnameParts[courseIndex + 1]);
           setCourseIdParsingErrorMsg("");
@@ -41,6 +42,35 @@ function Inputs() {
     }
   }
 
+  function handleApiResult(event) {
+    setapiRawResult(event.target.value);
+    try {
+      const data = JSON.parse(event.target.value);
+      let students = [];
+      for (let member of data["results"]) {
+        if (member["courseRoleId"] === "Student") {
+          students.push(member);
+        }
+      }
+
+      if (outputOption === "csv") {
+        const output = students
+          .map((val, idx, arr) => {
+            return `${val.user.userName},${val.user.name.given},${val.user.name.family},${val.userId},${val.id}`;
+            //return `${val.user.userName}\t${val.user.name.given}\t${val.user.name.family}\t${val.userId}\t${val.id}`;
+          })
+          .join("\n");
+        setProcessedResult(output);
+      } else if (outputOption === "json") {
+        const output = JSON.stringify(students);
+        setProcessedResult(output);
+      }
+    } catch (e) {
+      console.log(e);
+      setProcessedResult("Error parsing the result into JSON.");
+    }
+  }
+
   const membershipUrl = `https://blackboard.ohio.edu/learn/api/public/v1/courses/${courseId}/users?fields=id,userId,user,courseRoleId`;
 
   return (
@@ -51,7 +81,7 @@ function Inputs() {
         <div className="mt-8">
           <div className="grid grid-cols-1 gap-6">
             <label className="block">
-              <span className="text-gray-700">A Course ID</span>
+              <span className="text-gray-700">Course ID</span>
               <input
                 id="courseIdTxt"
                 value={url}
@@ -79,12 +109,43 @@ function Inputs() {
               <textarea
                 className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                 rows="5"
+                value={apiRawResult}
+                onChange={handleApiResult}
               ></textarea>
             </label>
-            <button className="rounded-full block bg-lime-700 hover:bg-lime-600 text-white px-5 py-3 font-bold ">
-              Prase
-            </button>
+            <label className="inline-flex items-center">
+              <input
+                className="form-radio"
+                type="radio"
+                name="outputOptionRadio"
+                value="csv"
+                defaultChecked={outputOption === "csv"}
+                onChange={(e) => setOutputOption(e.target.value)}
+              />
+              <span className="ml-2">CSV</span>
+            </label>
+            <label className="inline-flex items-center">
+              <input
+                className="form-radio"
+                type="radio"
+                defaultChecked={outputOption === "json"}
+                name="outputOptionRadio"
+                value="json"
+                onChange={(e) => setOutputOption(e.target.value)}
+              />
+              <span className="ml-2">JSON</span>
+            </label>
             <hr className="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700"></hr>
+            <label className="block">
+              <span className="text-gray-700">Parsed Output</span>
+              <textarea
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                rows="5"
+                value={processedResult}
+                readOnly={true}
+              ></textarea>
+            </label>
+            <p>You can then copy this value to Excel of Google Sheets.</p>
           </div>
         </div>
       </div>
