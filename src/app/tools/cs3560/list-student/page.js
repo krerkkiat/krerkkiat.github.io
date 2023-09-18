@@ -145,7 +145,10 @@ function Inputs() {
                 readOnly={true}
               ></textarea>
             </label>
-            <p>You can then copy this value to Excel of Google Sheets.</p>
+            <p>
+              You can then copy this value to Excel or{" "}
+              <a href="https://sheets.new/">Google Sheets</a>.
+            </p>
           </div>
         </div>
       </div>
