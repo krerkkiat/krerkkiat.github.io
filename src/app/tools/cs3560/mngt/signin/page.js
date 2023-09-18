@@ -3,23 +3,26 @@
 import { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
 
-import signIn from "../signin";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { useAuth } from "reactfire";
 
 export default function SigninPage() {
-  const router = useRouter();
-
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [signInErrorMsg, setSignInErrorMsg] = useState("");
 
+  const auth = useAuth();
+  const router = useRouter();
+
   async function handleFormSubmit(event) {
     event.preventDefault();
 
-    const { result, error } = await signIn(email, password);
-    if (error) {
-      setSignInErrorMsg("Invalid email address or password");
-    } else {
+    try {
+      const result = await signInWithEmailAndPassword(auth, email, password);
       router.push("/tools/cs3560/mngt");
+    } catch (e) {
+      console.log(e);
+      setSignInErrorMsg("Invalid email address or password");
     }
   }
 
