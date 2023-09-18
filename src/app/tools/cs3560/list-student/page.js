@@ -61,6 +61,13 @@ function Inputs() {
           })
           .join("\n");
         setProcessedResult(output);
+      } else if (outputOption === "tsv") {
+        const output = students
+          .map((val, idx, arr) => {
+            return `${val.user.userName}\t${val.user.name.given}\t${val.user.name.family}\t${val.userId}\t${val.id}`;
+          })
+          .join("\n");
+        setProcessedResult(output);
       } else if (outputOption === "json") {
         const output = JSON.stringify(students);
         setProcessedResult(output);
@@ -88,6 +95,15 @@ function Inputs() {
                 onChange={handleUrlChange}
                 className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
               ></input>
+              <p className="text-gray-600">
+                This is the alpha-numberic characters that appear in the URL
+                when you are in the course on Blackboard. For example,{" "}
+                <span className="font-mono word-breaks">_631023_1</span> is the
+                course ID from{" "}
+                <span className="font-mono word-breaks">
+                  https://blackboard.ohio.edu/ultra/courses/_631023_1/cl/outline
+                </span>
+              </p>
             </label>
             <p>
               Please visit this URL while login to Blackboard and copy the
@@ -99,7 +115,11 @@ function Inputs() {
             {courseIdParsingErrorMsg === "" && (
               <p>
                 URL:{" "}
-                <a href={membershipUrl} target="_blank">
+                <a
+                  href={membershipUrl}
+                  target="_blank"
+                  className="break-words underline"
+                >
                   {membershipUrl}
                 </a>
               </p>
@@ -128,6 +148,17 @@ function Inputs() {
               <input
                 className="form-radio"
                 type="radio"
+                name="outputOptionRadio"
+                value="tsv"
+                defaultChecked={outputOption === "tsv"}
+                onChange={(e) => setOutputOption(e.target.value)}
+              />
+              <span className="ml-2">TSV</span>
+            </label>
+            <label className="inline-flex items-center">
+              <input
+                className="form-radio"
+                type="radio"
                 defaultChecked={outputOption === "json"}
                 name="outputOptionRadio"
                 value="json"
@@ -146,8 +177,11 @@ function Inputs() {
               ></textarea>
             </label>
             <p>
-              You can then copy this value to Excel or{" "}
-              <a href="https://sheets.new/">Google Sheets</a>.
+              You can then copy this value to Microsoft Excel or{" "}
+              <a href="https://sheets.new/" className="underline">
+                Google Sheets
+              </a>
+              .
             </p>
           </div>
         </div>
