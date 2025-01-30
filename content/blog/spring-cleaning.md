@@ -46,7 +46,7 @@ To list the infamous `node_modules` folder,
 $ find . -type d -name "node_modules" -prune
 ```
 
-where the -prune tells the command to not descend down the found directory. ([src](https://unix.stackexchange.com/a/24563/467495))
+where the `-prune` flag tells the command to not descend down the found directory. ([src](https://unix.stackexchange.com/a/24563/467495))
 
 ## Tracking down large files
 
