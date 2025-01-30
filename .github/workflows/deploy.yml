@@ -7,7 +7,7 @@ on:
 
 jobs:
   build:
-    name: Publish site
+    name: Build
     runs-on: ubuntu-latest
     steps:
     - name: Checkout main
@@ -15,7 +15,7 @@ jobs:
     - name: Build and deploy
       uses: shalzz/zola-deploy-action@v0.19.2
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        BUILD_ONLY: true
     - name: Upload artifact
       uses: actions/upload-pages-artifact@v3
       with:
