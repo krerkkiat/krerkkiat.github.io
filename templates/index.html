@@ -4,11 +4,7 @@
 <h1 class="title is-2">
   Krerkkiat Chusap
 </h1>
-
-<h2 class="title is-3">
-  About
-</h2>
-<p>
+<p class="block mt-6">
   He is a graduate student at
   <a href="https://www.ohio.edu" target="_blank">Ohio University</a>.
   He manages to spend more running
@@ -20,4 +16,26 @@
   said conference. He loves to spend months automate task that only takes
   few hours.
 </p>
+{% endblock %}
+
+{% block rawBody %}
+<section class="section">
+  <div class="container">
+    <h2 class="title is-3">Posts</h2>
+    <ul class="block mt-6">
+      {% set blogs = get_section(path="blog/_index.md") %}
+      {% for page in blogs.pages | slice(end=5) %}
+      <li><span>{{ page.date }}</span> <a href="{{ page.permalink | safe }}">{{ page.title }}</a></li>
+      {% endfor %}
+    </ul>
+  </div>
+</section>
+<section class="section">
+  <div class="container">
+    <h2 class="title is-3">Apps</h2>
+    <ul class="block mt-6">
+      <li><a href="{{ get_url(path="apps/term") }}">Term</a></li>
+    </ul>
+  </div>
+</section>
 {% endblock %}

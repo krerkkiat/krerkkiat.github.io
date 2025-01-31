@@ -4,9 +4,19 @@
 <h1 class="title">
   {{ section.title }}
 </h1>
-<ul>
-  {% for page in section.pages %}
-  <li><a href="{{ page.permalink | safe }}">{{ page.title }}</a></li>
-  {% endfor %}
-</ul>
+<div class="posts">
+  <ul class="block mt-6">
+    {% for page in paginator.pages %}
+    <li><span>{{ page.date }}</span> <a href="{{ page.permalink | safe }}">{{ page.title }}</a></li>
+    {% endfor %}
+  </ul>
+</div>
+<nav class="pagination mt-3">
+  {% if paginator.previous %}
+      <a class="previous" href="{{ paginator.previous }}">‹ Previous</a>
+  {% endif %}
+  {% if paginator.next %}
+      <a class="next" href="{{ paginator.next }}">Next ›</a>
+  {% endif %}
+</nav>
 {% endblock content %}
