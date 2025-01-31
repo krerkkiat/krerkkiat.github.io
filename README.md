@@ -2,7 +2,7 @@
 
 ## Build
 
-Install [zola](https://www.getzola.org/). Run
+Install [zola](https://www.getzola.org/) (v0.19.2). Run
 
 ```console
 zola build
