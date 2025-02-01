@@ -1,8 +1,12 @@
 {% extends "base.html" %}
 
+{% block head %}
+<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+{% endblock %}
+
 {% block content %}
-<h1 class="title is-2">
-  Krerkkiat Chusap
+<h1 class="title is-2" x-data="theme">
+  Krerkkiat Chusap <button @click="toggleTheme"><i class="fa-solid fa-moon is-size-3 p-2"></i></button>
 </h1>
 <p class="block mt-6">
   He is a graduate student at
@@ -18,7 +22,7 @@
 </p>
 {% endblock %}
 
-{% block rawBody %}
+{% block raw_body %}
 <section class="section">
   <div class="container">
     <h2 class="title is-3">Posts</h2>
@@ -41,4 +45,23 @@
   </div>
 </section>
 
+<script>
+  document.addEventListener("alpine:init", () => {
+    // Detect existing dark theme and assign proper `data-theme` to the `html` tag.
+    const topLevelTag = document.getElementsByTagName("html")[0];
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      topLevelTag.setAttribute("data-theme", "dark");
+    } else {
+      topLevelTag.setAttribute("data-theme", "light");
+    }
+
+    Alpine.data("theme", () => ({
+      isLightTheme: true,
+      toggleTheme() {
+        const topLevelTag = document.getElementsByTagName("html")[0];
+        topLevelTag.setAttribute("data-theme", topLevelTag.getAttribute("data-theme") === "light" ? "dark" : "light");
+      }
+    }));
+  });
+</script>
 {% endblock %}

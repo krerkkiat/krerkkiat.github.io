@@ -6,8 +6,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Password Generator</title>
 
-  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
   <link rel="stylesheet" href="/bulma/bulma.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <script src="https://kit.fontawesome.com/b76b43162d.js" crossorigin="anonymous"></script>
 </head>
 
 <body>
@@ -20,7 +21,7 @@
         </div>
         <div class="buttons mt-3">
           <button @click="generatePasscode" class="button is-primary">Generate</button>
-          <button @click="copyToClipboard" class="button is-small">Copy</button>
+          <button @click="copyToClipboard" class="button is-small"><i class="fa-solid fa-clipboard"></i></button>
         </div>
       </div>
     </div>
@@ -47,10 +48,7 @@
           for (let i = 0; i < numberOfDigits; i++) {
             passcode = passcode + this.getRandomInt(10);
           }
-
-          const topLevelTag = document.getElementsByTagName("html")[0];
-          topLevelTag.setAttribute("data-theme", topLevelTag.getAttribute("data-theme") == "light" ? "dark" : "light");
-
+          
           this.data = passcode;
         },
 
