@@ -28,15 +28,17 @@
       <li><span>{{ page.date }}</span> <a href="{{ page.permalink | safe }}">{{ page.title }}</a></li>
       {% endfor %}
     </ul>
-    <a href="{{ get_url(path="blog") }}">view all ...</a>
+    <a href="{{ get_url(path='blog') }}">view all ...</a>
   </div>
 </section>
 <section class="section">
   <div class="container">
     <h2 class="title is-3">Apps</h2>
     <ul class="block mt-6">
-      <li><a href="{{ get_url(path="apps/term", trailing_slash=true) }}">Term</a></li>
+      <li><a href="{{ get_url(path='apps/create-password', trailing_slash=true) }}">Password Generator</a></li>
+      <li><a href="{{ get_url(path='apps/term', trailing_slash=true) }}">Term</a></li>
     </ul>
   </div>
 </section>
+
 {% endblock %}

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Password Generator</title>
+
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <link rel="stylesheet" href="/bulma/bulma.css">
+</head>
+
+<body>
+
+  <section class="section">
+    <div class="container">
+      <div x-data="password" class="block">
+        <div class="block">
+          <span x-text="data"></span>
+        </div>
+        <div class="buttons mt-3">
+          <button @click="generatePasscode" class="button is-primary">Generate</button>
+          <button @click="copyToClipboard" class="button is-small">Copy</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    document.addEventListener("alpine:init", () => {
+      Alpine.data("password", () => ({
+        data: "",
+
+        init() {
+          this.generatePasscode();
+        },
+
+        getRandomInt(max) {
+          return Math.floor(Math.random() * max);
+        },
+
+        generatePasscode() {
+          const numberOfDigits = 6;
+          const numberOfDash = 2;
+
+          let passcode = "";
+          for (let i = 0; i < numberOfDigits; i++) {
+            passcode = passcode + this.getRandomInt(10);
+          }
+
+          const topLevelTag = document.getElementsByTagName("html")[0];
+          topLevelTag.setAttribute("data-theme", topLevelTag.getAttribute("data-theme") == "light" ? "dark" : "light");
+
+          this.data = passcode;
+        },
+
+        copyToClipboard(e) {
+          navigator.clipboard.writeText(this.data).then(function () {
+            
+          }, function (err) {
+            console.error('Could not copy text: ', err);
+          })
+        }
+      }));
+    });
+  </script>
+
+</body>
+
+</html>
