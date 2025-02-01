@@ -1,67 +1,61 @@
 {% extends "base.html" %}
 
-{% block head %}
-<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-{% endblock %}
-
 {% block content %}
-<h1 class="title is-2" x-data="theme">
-  Krerkkiat Chusap <button @click="toggleTheme"><i class="fa-solid fa-moon is-size-3 p-2"></i></button>
-</h1>
-<p class="block mt-6">
-  He is a graduate student at
-  <a href="https://www.ohio.edu" target="_blank">Ohio University</a>.
-  He manages to spend more running
-  <a href="https://tsaou.page" target="_blank">
-    OU Thai Student Association's website
-  </a>
-  on its own domain (he should just use Linktree). He thought it was fun
-  to help run a conference and also live debugging production codebase for
-  said conference. He loves to spend months automate task that only takes
-  few hours.
-</p>
+<section class="hero is-medium">
+  <div class="hero-body">
+    {% set image = resize_image(path='static/imgs/profile-pic.png', width=100, op='fit_width') %}
+    <img src="{{ image.url }}" />
+    <p class="title">Krerkkiat Chusap</p>
+    <p class="subtitle">A Ph.D student studying robustness of reinforcement learning (RL) algorithms at <a
+        href="https://www.ohio.edu" target="_blank">Ohio University</a></p>
+  </div>
+</section>
 {% endblock %}
 
 {% block raw_body %}
 <section class="section">
-  <div class="container">
-    <h2 class="title is-3">Posts</h2>
-    <ul class="block mt-6">
-      {% set blogs = get_section(path="blog/_index.md") %}
-      {% for page in blogs.pages | slice(end=5) %}
-      <li><span>{{ page.date }}</span> <a href="{{ page.permalink | safe }}">{{ page.title }}</a></li>
-      {% endfor %}
-    </ul>
-    <a href="{{ get_url(path='blog') }}">view all ...</a>
+  <div class="columns">
+    <div class="column is-half">
+      <div class="container">
+        <h2 class="title is-3">Posts</h2>
+        <p class="block mt-4">Want to hear my recent stories and random toughts?</p>
+        <ul class="block mt-3">
+          {% set blogs = get_section(path="blog/_index.md") %}
+          {% for page in blogs.pages | slice(end=5) %}
+          <li><span>{{ page.date }}</span> <a href="{{ page.permalink | safe }}">{{ page.title }}</a></li>
+          {% endfor %}
+        </ul>
+        <a href="{{ get_url(path='blog') }}">view all ...</a>
+      </div>
+    </div>
+    <div class="column is-half">
+      <div class="container">
+        <h2 class="title is-3">Apps</h2>
+        <p class="block mt-4">Some are self-built. Some are just me hosting them to see how they work.</p>
+        <ul class="block mt-3">
+          <li><a href="{{ get_url(path='apps/create-password', trailing_slash=true) }}">Password Generator</a></li>
+          <li><a href="{{ get_url(path='apps/term', trailing_slash=true) }}">Terminal</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="columns">
+    <div class="column is-four-fifths">
+      <div class="container">
+        <h2 class="title is-3">About</h2>
+        <p class="block mt-4">He is a Ph.D student at
+          <a href="https://www.ohio.edu" target="_blank">Ohio University</a>.
+          He manages to spend more running
+          <a href="https://tsaou.page" target="_blank">
+            OU Thai Student Association's website
+          </a>
+          on its own domain (he should just use Linktree). He thought it was fun
+          to help run a conference and also live debugging production codebase for
+          said conference. He loves to spend months automate task that only takes
+          few hours.
+        </p>
+      </div>
+    </div>
   </div>
 </section>
-<section class="section">
-  <div class="container">
-    <h2 class="title is-3">Apps</h2>
-    <ul class="block mt-6">
-      <li><a href="{{ get_url(path='apps/create-password', trailing_slash=true) }}">Password Generator</a></li>
-      <li><a href="{{ get_url(path='apps/term', trailing_slash=true) }}">Term</a></li>
-    </ul>
-  </div>
-</section>
-
-<script>
-  document.addEventListener("alpine:init", () => {
-    // Detect existing dark theme and assign proper `data-theme` to the `html` tag.
-    const topLevelTag = document.getElementsByTagName("html")[0];
-    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-      topLevelTag.setAttribute("data-theme", "dark");
-    } else {
-      topLevelTag.setAttribute("data-theme", "light");
-    }
-
-    Alpine.data("theme", () => ({
-      isLightTheme: true,
-      toggleTheme() {
-        const topLevelTag = document.getElementsByTagName("html")[0];
-        topLevelTag.setAttribute("data-theme", topLevelTag.getAttribute("data-theme") === "light" ? "dark" : "light");
-      }
-    }));
-  });
-</script>
 {% endblock %}
