@@ -1,2 +1,5 @@
 # Built site
 public/
+
+# NodeJs
+node_modules/
