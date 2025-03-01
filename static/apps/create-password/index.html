@@ -35,7 +35,7 @@
           <div class="select is-success">
             <select id="password-style" x-model="style">
               <option value="ios">iOS Style</option>
-              <option value="simple">Simple Passcode Style</option>
+              <option value="simple">Simple Style</option>
             </select>
           </div>
           <button @click="generate" class="button is-primary">Generate</button>
@@ -56,7 +56,17 @@
         },
 
         getRandomInt(max) {
+          // [0, max)
           return Math.floor(Math.random() * max);
+        },
+
+        getRandomDigits(n) {
+          const digits = "0123456789";
+          let result = "";
+          for (let i = 0; i < n; i++) {
+            result = result + digits[this.getRandomInt(digits.length)];
+          }
+          return result;
         },
 
         getRandomAlphanumericCharacters(n) {
@@ -76,18 +86,32 @@
           return result.join(separator);
         },
 
+        generateSimpleStylePassword(digits, dashes) {
+          var dashPositions = [];
+          for (let i = 0; i < dashes; i++) {
+            var number = 1 + this.getRandomInt(digits + dashes - 2);
+            while (dashPositions.includes(number) || dashPositions.includes(number - 1) || dashPositions.includes(number + 1)) {
+              number = 1 + this.getRandomInt(digits + dashes - 2);
+            }
+            dashPositions.push(number);
+          }
+          
+          let result = "";
+          for (let i = 0; i < (digits + dashes); i++) {
+            if (dashPositions.includes(i)) {
+              result = result + "-";
+            } else {
+              result = result + this.getRandomInt(10);
+            }
+          }
+          return result;
+        },
+
         generate() {
           if (this.style === "ios") {
             this.data = this.generateIosStylePassword(3, 6, "-");
           } else if (this.style == "simple") {
-            const numberOfDigits = 6;
-            const numberOfDash = 2;
-
-            let passcode = "";
-            for (let i = 0; i < numberOfDigits; i++) {
-              passcode = passcode + this.getRandomInt(10);
-            }
-            this.data = passcode;
+            this.data = this.generateSimpleStylePassword(6, 2);
           }
         },
 
