@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Password Generator</title>
 
-  <link rel="stylesheet" href="/bulma/bulma.css">
+  <link rel="stylesheet" href="/css/bulma.min.css">
   <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
   <script src="https://kit.fontawesome.com/b76b43162d.js" crossorigin="anonymous"></script>
 </head>
@@ -22,6 +22,14 @@
         <div class="buttons mt-3">
           <button @click="generatePasscode" class="button is-primary">Generate</button>
           <button @click="copyToClipboard" class="button is-small"><i class="fa-solid fa-clipboard"></i></button>
+        </div>
+        <div class="select is-danger">
+          <select id="my-dropdown">
+            <option value="">Select value...</option>
+            <option value="1">One</option>
+            <option value="2">Two</option>
+            <option value="3">Three</option>
+          </select>
         </div>
       </div>
     </div>
@@ -48,13 +56,13 @@
           for (let i = 0; i < numberOfDigits; i++) {
             passcode = passcode + this.getRandomInt(10);
           }
-          
+
           this.data = passcode;
         },
 
         copyToClipboard(e) {
           navigator.clipboard.writeText(this.data).then(function () {
-            
+
           }, function (err) {
             console.error('Could not copy text: ', err);
           })
