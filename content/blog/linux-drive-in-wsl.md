@@ -9,7 +9,7 @@ myself booting into linux less and less since the Windows on SSD is responsive e
 on this ancient laptop. However, a ton of project files are still in that linux partition.
 I need to get access to it somehow.
 
-After a bit of Googling around, I found this article "[Mount a Linux disk in WSL 2](https://learn.microsoft.com/en-us/windows/wsl/wsl2-mount-disk)". Let's try it out by firing up the PowerShell with administrator priviledge and run
+After a bit of Googling around, I found this article "[Mount a Linux disk in WSL 2](https://learn.microsoft.com/en-us/windows/wsl/wsl2-mount-disk)". Let's try it out by firing up the PowerShell with administrator privilege and run`
 
 ```console
 $ GET-CimInstance -query "SELECT * from Win32_DiskDrive"
@@ -55,7 +55,7 @@ Device          Start        End   Sectors   Size Type
 ...
 ```
 
-We can then proceed to mount the partition normally. In this case, my home parition is at `/dev/sdd3`.
+We can then proceed to mount the partition normally. In this case, my home partition is at `/dev/sdd3`.
 
 ```console
 $ sudo mkdir -p /mnt/home

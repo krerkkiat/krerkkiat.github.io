@@ -10,7 +10,7 @@ git config --global user.name "Krerkkiat Chusap"
 git config --global user.email "me@kchusap.com"
 ```
 
-Now, we will be looking at some intersting Git's aliases.
+Now, we will be looking at some interesting Git's aliases.
 
 ```bash
 git config --global alias.st 'status'
