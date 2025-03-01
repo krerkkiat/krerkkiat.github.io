@@ -1,0 +1,7 @@
+{
+  "dependencies": {
+    "@xterm/xterm": "^5.5.0",
+    "monaco-editor": "^0.52.2",
+    "wasm-webterm": "github:cryptool-org/wasm-webterm"
+  }
+}
