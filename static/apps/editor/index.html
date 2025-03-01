@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Editor</title>
+
+  <link rel="stylesheet" href="/css/bulma.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <script src="https://kit.fontawesome.com/b76b43162d.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+
+  <section class="section">
+    <div class="container" x-data="editorData">
+      <div id="editor-container" style="height:87vh;border:1px solid grey"></div>
+      <div class="field">
+        <label class="label">Language</label>
+        <div class="select is-success">
+          <select id="language-options" x-model="language" x-on:change="onLanguageChange">
+            <option value="python">Python</option>
+            <option value="rust">Rust</option>
+            <option value="cpp">C++</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.5/require.min.js"
+    integrity="sha256-0SGl1PJNDyJwcV5T+weg2zpEMrh7xvlwO4oXgvZCeZk=" crossorigin="anonymous"></script>
+  <script src="/node_modules/monaco-editor/min/vs/loader.js"></script>
+  <script>
+    document.addEventListener("alpine:init", () => {
+      Alpine.data("editorData", () => ({
+        language: "python",
+
+        init() {
+        },
+
+        onLanguageChange(e) {
+          monaco.editor.setModelLanguage(window.editor.getModel(), this.language);
+        }
+      }));
+    });
+
+    require.config({ paths: { vs: '/node_modules/monaco-editor/min/vs' } });
+    require(['vs/editor/editor.main'], function () {
+      var editor = monaco.editor.create(document.getElementById('editor-container'), {
+        value: ['def hello():', '    print("Hello world")', '', 'if __name__ == "__main__":', '    hello()'].join('\n'),
+        language: 'python'
+      });
+
+      window.editor = editor;
+    });
+  </script>
+
+</body>
+
+</html>
