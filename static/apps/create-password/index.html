@@ -33,13 +33,32 @@
         </div>
         <div class="buttons mt-3">
           <div class="select is-success">
-            <select id="password-style" x-model="style">
+            <select id="password-style" x-model="style" x-on:change="onStyleChange">
               <option value="ios">iOS Style</option>
               <option value="simple">Simple Style</option>
+              <option value="complex">Complex Style</option>
             </select>
           </div>
           <button @click="generate" class="button is-primary">Generate</button>
           <button @click="copyToClipboard" class="button p-3"><i class="fa-solid fa-clipboard"></i></button>
+        </div>
+        <div x-show="showComplexStyleConfig" class="field">
+          <label class="label">Lengths</label>
+          <div class="control">
+            <input x-model="length" class="input" type="text" placeholder="Length">
+          </div>
+        </div>
+        <div x-show="showIosStyleConfig" class="field">
+          <label class="label">Groups</label>
+          <div class="control">
+            <input x-model="groups" class="input" type="text" placeholder="Groups">
+          </div>
+        </div>
+        <div x-show="showIosStyleConfig" class="field">
+          <label class="label">Characters Per Group</label>
+          <div class="control">
+            <input x-model="perGroups" class="input" type="text" placeholder="Characters Per Group">
+          </div>
         </div>
       </div>
     </div>
@@ -51,7 +70,27 @@
         data: "",
         style: "ios",
 
+        length: 24,
+        showComplexStyleConfig: false,
+
+        groups: 3,
+        perGroups: 6,
+        showIosStyleConfig: false,
+
         init() {
+          let queryParams = new URLSearchParams(window.location.search);
+          if (queryParams.get("style")) {
+            this.style = queryParams.get("style");
+          }
+
+          if (this.style === "ios") {
+            this.showIosStyleConfig = true;
+            this.showComplexStyleConfig = false;
+          } else if (this.style === "complex") {
+            this.showIosStyleConfig = false;
+            this.showComplexStyleConfig = true;
+          }
+
           this.generate();
         },
 
@@ -74,6 +113,15 @@
           let result = "";
           for (let i = 0; i < n; i++) {
             result = result + alphanumericCharacters[this.getRandomInt(alphanumericCharacters.length)];
+          }
+          return result;
+        },
+
+        getRandomCharacters(n) {
+          const characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*";
+          let result = "";
+          for (let i = 0; i < n; i++) {
+            result = result + characters[this.getRandomInt(characters.length)];
           }
           return result;
         },
@@ -109,9 +157,24 @@
 
         generate() {
           if (this.style === "ios") {
-            this.data = this.generateIosStylePassword(3, 6, "-");
-          } else if (this.style == "simple") {
+            this.data = this.generateIosStylePassword(this.groups, this.perGroups, "-");
+          } else if (this.style === "simple") {
             this.data = this.generateSimpleStylePassword(6, 2);
+          } else if (this.style === "complex") {
+            this.data = this.getRandomCharacters(this.length);
+          }
+        },
+
+        onStyleChange(e) {
+          if (this.style === "complex") {
+            this.showIosStyleConfig = false;
+            this.showComplexStyleConfig = true;
+          } else if (this.style === "ios") {
+            this.showIosStyleConfig = true;
+            this.showComplexStyleConfig = false;
+          } else {
+            this.showIosStyleConfig = false;
+            this.showComplexStyleConfig = false;
           }
         },
 
