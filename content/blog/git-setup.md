@@ -1,6 +1,10 @@
 +++
 title = "My Git's setup"
-date = "2025-02-01"
+date = 2025-02-01
+authors = ["Krerkkiat Chusap"]
+
+[taxonomis]
+tags = ["git"]
 +++
 
 First, we have the usual `user.name` and `user.email`.

@@ -1,6 +1,10 @@
 +++
 title = "Taking a screenshot of Canvas' SpeedGrader panel"
-date = "2025-02-28"
+date = 2025-02-28
+authors = ["Krerkkiat Chusap"]
+
+[taxonomies]
+tags = ["canvas", "quick-hack"]
 +++
 
 While I was serving as a teaching assistant back in Fall 2024-2025, the Electrical Engineering and Computer Science (EECS) department underwent a preparation

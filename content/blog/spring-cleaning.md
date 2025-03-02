@@ -1,6 +1,11 @@
 +++
-title = "Spring(?) Cleaning"
-date = "2021-10-02"
+title = "Spring(?) cleaning"
+date = 2021-10-02
+updated = 2025-03-01
+authors = ["Krerkkiat Chusap"]
+
+[taxonomies]
+tags = ["maintenance"]
 +++
 
 With a home partition that is almost full, it is then the spring cleaning time! (wait!?). This post walks you through the commands I used, so I don't have to track them down again next year.

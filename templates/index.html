@@ -22,20 +22,21 @@
         <ul class="block mt-3">
           {% set blogs = get_section(path="blog/_index.md") %}
           {% for page in blogs.pages | slice(end=5) %}
-          <li><span>{{ page.date }}</span> <a href="{{ page.permalink | safe }}">{{ page.title }}</a></li>
+          <li class="m-1"><span>{{ page.date }}</span> <a href="{{ page.permalink | safe }}">{{ page.title }}</a></li>
           {% endfor %}
         </ul>
-        <a href="{{ get_url(path='blog') }}">view all ...</a>
+        <a href="{{ get_url(path='blog') }}">View all ...</a>
       </div>
     </div>
     <div class="column is-half">
       <div class="container">
         <h2 class="title is-3">Apps</h2>
-        <p class="block mt-4">Some are self-built. Some are just me hosting them to see how they work.</p>
+        <p class="block mt-4">Some are self-built. Some are just me hosting them to see how they work. You could also call them tools
+        rather than apps. I went with apps because it is shorter for thr url.</p>
         <ul class="block mt-3">
-          <li><a href="{{ get_url(path='apps/create-password', trailing_slash=true) }}">Password Generator</a></li>
-          <li><a href="{{ get_url(path='apps/editor', trailing_slash=true) }}">Editor</a></li>
-          <li><a href="{{ get_url(path='apps/term', trailing_slash=true) }}">Terminal</a></li>
+          <li class="m-1"><a href="{{ get_url(path='apps/create-password', trailing_slash=true) }}">Password Generator</a></li>
+          <li class="m-1"><a href="{{ get_url(path='apps/editor', trailing_slash=true) }}">Editor</a></li>
+          <li class="m-1"><a href="{{ get_url(path='apps/term', trailing_slash=true) }}">Terminal</a></li>
         </ul>
       </div>
     </div>

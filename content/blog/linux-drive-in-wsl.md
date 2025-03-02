@@ -1,6 +1,10 @@
 +++
 title = "How I ended up mounting my Linux drive to WSL"
-date = "2025-01-31"
+date = 2025-01-31
+authors = ["Krerkkiat Chusap"]
+
+[taxonomies]
+tags = ["wsl"]
 +++
 
 Since after I got a SSD upgrade for my 5+ years old laptop, I end up installing Windows

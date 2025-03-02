@@ -2,12 +2,12 @@
 
 {% block content %}
 <h1 class="title">
-  {{ section.title }}
+  {{ taxonomy.name }} ({{ terms | length }})
 </h1>
-<div class="posts">
+<div class="terms">
   <ul class="block mt-6">
-    {% for page in paginator.pages %}
-    <li class="m-1"><span>{{ page.date }}</span> <a href="{{ page.permalink | safe }}">{{ page.title }}</a></li>
+    {% for term in terms %}
+    <li class="m-1"><a href="{{ term.path }}">{{ term.name }} ({{ term.page_count }})</a></li>
     {% endfor %}
   </ul>
 </div>

@@ -1,6 +1,7 @@
 +++
 title = "Murim in the year 2100"
-date = "2025-03-01"
+date = 2025-03-01
+authors = ["Krerkkiat Chusap"]
 +++
 
 A tall figure move quickly through the bamboo forest. After them are five shadows moving along
