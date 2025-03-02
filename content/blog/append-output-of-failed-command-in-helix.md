@@ -2,7 +2,6 @@
 title = "Capturing the output of a failed command in helix"
 date = 2025-03-02
 authors = ["Krerkkiat Chusap"]
-draft = true
 
 [taxonomies]
 tags=["shell"]
