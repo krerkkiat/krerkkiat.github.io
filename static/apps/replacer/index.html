@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Replace</title>
+
+  <link rel="stylesheet" href="/css/bulma.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <script src="https://kit.fontawesome.com/b76b43162d.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+
+  <section class="section">
+    <div x-data="replacer" class="container">
+      <div class="block">
+        <textarea x-model="text" class="textarea" rows="5" placeholder="Text to operate on"></textarea>
+        <p x-text="text.length"></p>
+      </div>
+
+      <div class="field">
+        <label class="label">Predefined Replacement</label>
+        <div class="select is-success">
+          <select id="predefined-option" x-model="predefinedOption" x-on:change="onPredefinedOptionChange">
+            <option value="none">None</option>
+            <option value="compose-escape">Docker Compose $ escape</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="label">Replace</label>
+        <div class="control">
+          <input x-model="pattern" class="input" type="text" placeholder="Pattern">
+        </div>
+      </div>
+      <div class="field">
+        <label class="label">With</label>
+        <div class="control">
+          <input x-model="replacement" class="input" type="text" placeholder="Replacement">
+        </div>
+      </div>
+
+      <button @click="replace" class="button is-primary">Replace</button>
+      <button @click="undo" class="button">Undo</button>
+    </div>
+  </section>
+
+  <script>
+    document.addEventListener("alpine:init", () => {
+      Alpine.data("replacer", () => ({
+        text: "",
+        pattern: "",
+        replacement: "",
+
+        pastEntries: [],
+        futureEntries: [],
+
+        predefinedOption: "none",
+
+        init() {
+        },
+
+        replace() {
+          this.pastEntries.push({text: this.text, pattern: this.pattern, replacement: this.replacement});
+          this.text = this.text.replaceAll(this.pattern, this.replacement);
+        },
+
+        undo() {
+          if (this.pastEntries.length === 0) {
+            return;
+          }
+        
+          // Put the current data as future entry.
+          this.futureEntries.push({text: this.text, pattern: this.pattern, replacement: this.replacement});
+
+          // Obtain the entry from the past.
+          var entry = this.pastEntries.pop();
+
+          // Set it to the state.
+          this.text = entry.text;
+          this.pattern = entry.pattern;
+          this.replacement = entry.replacement;
+        },
+
+        onPredefinedOptionChange(e) {
+          if (this.predefinedOption === "compose-escape") {
+            this.pattern = "$";
+            this.replacement = "$$$$";
+          }
+        },
+
+      }));
+    });
+  </script>
+
+</body>
+
+</html>
