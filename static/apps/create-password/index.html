@@ -8,6 +8,7 @@
 
   <link rel="stylesheet" href="/css/bulma.min.css">
   <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/bcryptjs@3.0.2/umd/index.js"></script>
   <script src="https://kit.fontawesome.com/b76b43162d.js" crossorigin="anonymous"></script>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -27,37 +28,62 @@
 
   <section class="section">
     <div class="container">
-      <div x-data="password" class="block">
-        <div class="block">
-          <span x-text="data" class="space-mono-regular"></span>
+      <div x-data="passwordApp" class="block">
+        <div class="tabs">
+          <ul>
+            <li :class="activeTab === 'generate' ? 'is-active' : ''"><a x-on:click="changeTab('generate')">Generate</a></li>
+            <li :class="activeTab === 'hash' ? 'is-active' : ''"><a x-on:click="changeTab('hash')">Create Hash</a></li>
+          </ul>
         </div>
-        <div class="buttons mt-3">
-          <div class="select is-success">
-            <select id="password-style" x-model="style" x-on:change="onStyleChange">
-              <option value="ios">iOS Style</option>
-              <option value="simple">Simple Style</option>
-              <option value="complex">Complex Style</option>
-            </select>
+
+        <div x-show="activeTab === 'generate'">
+          <div class="block">
+            <span x-text="data" class="space-mono-regular"></span>
           </div>
-          <button @click="generate" class="button is-primary">Generate</button>
-          <button @click="copyToClipboard" class="button p-3"><i class="fa-solid fa-clipboard"></i></button>
-        </div>
-        <div x-show="showComplexStyleConfig" class="field">
-          <label class="label">Lengths</label>
-          <div class="control">
-            <input x-model="length" class="input" type="text" placeholder="Length">
+          <div class="buttons mt-3">
+            <div class="select is-success">
+              <select id="password-style" x-model="style" x-on:change="onStyleChange">
+                <option value="ios">iOS Style</option>
+                <option value="simple">Simple Style</option>
+                <option value="complex">Complex Style</option>
+              </select>
+            </div>
+            <button @click="generate" class="button is-primary">Generate</button>
+            <button @click="copyToClipboard('generated-password')" class="button p-3"><i class="fa-solid fa-clipboard"></i></button>
+          </div>
+          <div x-show="showComplexStyleConfig" class="field">
+            <label class="label">Lengths</label>
+            <div class="control">
+              <input x-model="length" class="input" type="text" placeholder="Length">
+            </div>
+          </div>
+          <div x-show="showIosStyleConfig" class="field">
+            <label class="label">Groups</label>
+            <div class="control">
+              <input x-model="groups" class="input" type="text" placeholder="Groups">
+            </div>
+          </div>
+          <div x-show="showIosStyleConfig" class="field">
+            <label class="label">Characters Per Group</label>
+            <div class="control">
+              <input x-model="perGroups" class="input" type="text" placeholder="Characters Per Group">
+            </div>
           </div>
         </div>
-        <div x-show="showIosStyleConfig" class="field">
-          <label class="label">Groups</label>
-          <div class="control">
-            <input x-model="groups" class="input" type="text" placeholder="Groups">
+
+        <div x-show="activeTab === 'hash'">
+          <div class="field">
+            <label class="label">Plantext Password</label>
+            <div class="control">
+              <input x-model="plaintextPassword" class="input" type="text" placeholder="Plaintext password">
+            </div>
           </div>
-        </div>
-        <div x-show="showIosStyleConfig" class="field">
-          <label class="label">Characters Per Group</label>
-          <div class="control">
-            <input x-model="perGroups" class="input" type="text" placeholder="Characters Per Group">
+          <div class="buttons mt-3">
+            <button @click="hash" class="button is-primary">Hash</button>
+            <button @click="copyToClipboard('hashed-password')" class="button p-3"><i class="fa-solid fa-clipboard"></i></button>
+          </div>
+          <div class="block mt-2">
+            <span x-text="hashedPassword" class="space-mono-regular"></span>
           </div>
         </div>
       </div>
@@ -66,7 +92,9 @@
 
   <script>
     document.addEventListener("alpine:init", () => {
-      Alpine.data("password", () => ({
+      Alpine.data("passwordApp", () => ({
+        activeTab: "generate",
+
         data: "",
         style: "ios",
 
@@ -77,10 +105,17 @@
         perGroups: 6,
         showIosStyleConfig: false,
 
+        // -- hash
+        plaintextPassword: "",
+        hashedPassword: "",
+
         init() {
           let queryParams = new URLSearchParams(window.location.search);
           if (queryParams.get("style")) {
             this.style = queryParams.get("style");
+          }
+          if (queryParams.get("tab")) {
+            this.activeTab = queryParams.get("tab");
           }
 
           if (this.style === "ios") {
@@ -94,6 +129,15 @@
           this.generate();
         },
 
+        changeTab(name) {
+          this.activeTab = name;
+          
+          const urlParams = new URLSearchParams(window.location.search);
+          urlParams.set("tab", this.activeTab);
+          const newUrl = `${window.location.pathname}?${urlParams.toString()}`;
+          window.history.pushState(null, '', newUrl);
+        },
+        
         getRandomInt(max) {
           // [0, max)
           return Math.floor(Math.random() * max);
@@ -138,8 +182,15 @@
           var dashPositions = [];
           for (let i = 0; i < dashes; i++) {
             var number = 1 + this.getRandomInt(digits + dashes - 2);
+            var tries = 0;
             while (dashPositions.includes(number) || dashPositions.includes(number - 1) || dashPositions.includes(number + 1)) {
+              if (tries >= 100) {
+                // Give up if we loop for too long.
+                // E.g. the function is called with (digits=6, dashes=6).
+                break;
+              }
               number = 1 + this.getRandomInt(digits + dashes - 2);
+              tries = tries + 1;
             }
             dashPositions.push(number);
           }
@@ -178,12 +229,27 @@
           }
         },
 
-        copyToClipboard(e) {
-          navigator.clipboard.writeText(this.data).then(function () {
+        copyToClipboard(type) {
+          var payload = "";
+          if (type === "generated-password") {
+            payload = this.data;
+          } else if (type === "hashed-password") {
+            payload = this.hashedPassword;
+          }
+          navigator.clipboard.writeText(payload).then(function () {
 
           }, function (err) {
             console.error('Could not copy text: ', err);
           })
+        },
+
+        hash() {
+          if (this.plaintextPassword === "") {
+            this.hashedPassword = "";
+            return;
+          }
+          let salt = bcrypt.genSaltSync(10);
+          this.hashedPassword = bcrypt.hashSync(this.plaintextPassword, salt);
         }
       }));
     });
