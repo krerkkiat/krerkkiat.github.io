@@ -11,7 +11,7 @@ First, we have the usual `user.name` and `user.email`.
 
 ```bash
 git config --global user.name "Krerkkiat Chusap"
-git config --global user.email "me@kchusap.com"
+git config --global user.email "example@kchusap.com"
 ```
 
 Now, we will be looking at some interesting Git's aliases.

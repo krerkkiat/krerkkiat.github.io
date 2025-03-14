@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Replace</title>
+  <title>Text Operations</title>
 
   <link rel="stylesheet" href="/css/bulma.min.css">
   <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
@@ -65,7 +65,12 @@
 
         replace() {
           this.pastEntries.push({text: this.text, pattern: this.pattern, replacement: this.replacement});
-          this.text = this.text.replaceAll(this.pattern, this.replacement);
+          if (this.pattern.startsWith("/")) {
+            const regExPattern = new RegExp(this.pattern.replaceAll("/", ""));
+            this.text = this.text.replaceAll(regExPattern, this.replacement);
+          } else {
+            this.text = this.text.replaceAll(this.pattern, this.replacement);
+          }
         },
 
         undo() {
