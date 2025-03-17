@@ -49,7 +49,7 @@
               </select>
             </div>
             <button @click="generate" class="button is-primary">Generate</button>
-            <button @click="copyToClipboard('generated-password')" class="button p-3"><i class="fa-solid fa-clipboard"></i></button>
+            <button @click="copyToClipboard('generated-password')" class="button p-3"><i class="fa-solid fa-copy"></i></button>
           </div>
           <div x-show="showComplexStyleConfig" class="field">
             <label class="label">Lengths</label>
@@ -80,7 +80,7 @@
           </div>
           <div class="buttons mt-3">
             <button @click="hash" class="button is-primary">Hash</button>
-            <button @click="copyToClipboard('hashed-password')" class="button p-3"><i class="fa-solid fa-clipboard"></i></button>
+            <button @click="copyToClipboard('hashed-password')" class="button p-3"><i class="fa-solid fa-copy"></i></button>
           </div>
           <div class="block mt-2">
             <span x-text="hashedPassword" class="space-mono-regular" style="overflow-x: auto;"></span>

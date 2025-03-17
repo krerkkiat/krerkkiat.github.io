@@ -36,6 +36,8 @@
             <select id="predefined-option" x-model="predefinedOption" x-on:change="onPredefinedOptionChange">
               <option value="none">None</option>
               <option value="compose-escape">Docker Compose $ escape</option>
+              <option value="csv-comma-to-latex-tabular-ampersand">, to &</option>
+              <option value="latex-tabular-ampersand-to-csv-comma">& to ,</option>
             </select>
           </div>
         </div>
@@ -58,7 +60,8 @@
       </div>
 
       <div x-show="activeTab === 'cases'">
-        <button @click="toLowercase" class="button is-primary">To lowercase</button>
+        <button @click="toLowerCase" class="button is-primary">To lowercase</button>
+        <button @click="toUpperCase" class="button is-primary">To UPPERCASE</button>
       </div>
 
     </div>
@@ -125,12 +128,23 @@
           if (this.predefinedOption === "compose-escape") {
             this.pattern = "$";
             this.replacement = "$$$$";
+          } else if (this.predefinedOption === "csv-comma-to-latex-tabular-ampersand") {
+            this.pattern = ",";
+            this.replacement = "&";
+          } else if (this.predefinedOption === "latex-tabular-ampersand-to-csv-comma") {
+            this.pattern = "&";
+            this.replacement = ",";
           }
         },
 
-        toLowercase(e) {
+        toLowerCase(e) {
           this.pastEntries.push({text: this.text, pattern: this.pattern, replacement: this.replacement});
           this.text = this.text.toLowerCase();
+        },
+
+        toUpperCase(e) {
+          this.pastEntries.push({text: this.text, pattern: this.pattern, replacement: this.replacement});
+          this.text = this.text.toUpperCase();
         },
 
       }));
