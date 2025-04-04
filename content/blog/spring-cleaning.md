@@ -14,7 +14,7 @@ With a home partition that is almost full, it is then the spring cleaning time! 
 
 Removing unused packages,
 
-```console
+```
 # pacman -Qtdq | pacman -Rns -
 ```
 
@@ -22,13 +22,13 @@ Future me should not blindly run it, and should check if the packages should be 
 
 To remove pacman’s package caches and only keep the last set.
 
-```console
+```
 # paccache -rk1
 ```
 
 Remove old system log files. In this case only keep the last 30 days worth of log.
 
-```console
+```
 # journalctl --vacuum-time=30d
 ```
 
@@ -38,7 +38,7 @@ For further detail on the system maintenance for Archlinux (some of which may ap
 
 For python,
 
-```console
+```
 $ find . -type f -name "*.pyc" -delete
 $ find . -name "__pycache__" -type d -exec rm -rf \;
 ```
@@ -47,7 +47,7 @@ Just be careful with the 2nd command.
 
 To list the infamous `node_modules` folder,
 
-```console
+```
 $ find . -type d -name "node_modules" -prune
 ```
 

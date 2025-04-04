@@ -15,7 +15,7 @@ I need to get access to it somehow.
 
 After a bit of Googling around, I found this article "[Mount a Linux disk in WSL 2](https://learn.microsoft.com/en-us/windows/wsl/wsl2-mount-disk)". Let's try it out by firing up the PowerShell with administrator privilege and run`
 
-```console
+```
 $ GET-CimInstance -query "SELECT * from Win32_DiskDrive"
 DeviceID           Caption            Partitions Size          Model
 --------           -------            ---------- ----          -----
@@ -27,7 +27,7 @@ DeviceID           Caption            Partitions Size          Model
 Take note of the `DeviceID` since we will be using it later to mount it to the WSL. Since my linux installation exist
 on a separated drive, I just need the `--bare` option to mount the entire drive.
 
-```console
+```
 $ wsl --mount \\.\PHYSICALDRIVE1 --bare
 The disk is in use or locked by another process
 ```
@@ -37,7 +37,7 @@ and select the SSD as a boot drive frees up the drive and solves this problem.
 
 Now that the drive is attached to WSL, I can mount it in WSL. To quickly check that there is a new drive, we can run `fdisk -l`,
 
-```console
+```
 $ sudo fdisk -l
 
 ...
@@ -61,7 +61,7 @@ Device          Start        End   Sectors   Size Type
 
 We can then proceed to mount the partition normally. In this case, my home partition is at `/dev/sdd3`.
 
-```console
+```
 $ sudo mkdir -p /mnt/home
 $ sudo mount /dev/sdd3 /mnt/home
 ```

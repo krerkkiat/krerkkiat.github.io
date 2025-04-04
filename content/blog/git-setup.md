@@ -33,7 +33,7 @@ I shamelessly stole that `git lgoa` from
 at [Linux.conf.au 2013](https://www.youtube.com/@linuxconfau2013). It is my go-to commit graph
 visualization. Here is an example of running it on part of [python/cpython](https://github.com/python/cpython) repository.
 
-```console
+```
 $ git lgoa
 [...]
 * 43ef958 gh-106320: Document replacement for removed C API (#128787)
@@ -75,7 +75,7 @@ was really useful when I was a teaching assiant to [CS 3560 course](https://gith
 at [Ohio University](https://www.ohio.edu/). It will show the short commit's hash (`%h`), the commit's creation time (`%ad`), the author's name (`%an`) and a one line of the commit message (`%s`). Here is an example
 of running it on a repository for [my personal website](https://kchusap.com).
 
-```console
+```
 $ git hs
 * 16d36bf 3 hours ago Krerkkiat Chusap (HEAD -> main, origin/main, origin/HEAD) feat: add password generator app
 * ad30368 4 hours ago Krerkkiat Chusap fix: template not render properly
@@ -94,7 +94,7 @@ For the full details of the format, please visit [Git's own documentation on pre
 
 Here are all the commands in one place for an easy copy-and-paste.
 
-```shell
+```bash
 git config --global user.name "Krerkkiat Chusap"
 git config --global user.email "me@kchusap.com"
 
@@ -118,7 +118,7 @@ git config --global alias.hs "log --pretty='%C(yellow)%h %C(cyan)%ad %Cblue%an%C
 
 I will just put this here since I sometimes refer to this post for my own setup.
 
-```plain
+```
 * text=auto
 
 # For a specific file format.
