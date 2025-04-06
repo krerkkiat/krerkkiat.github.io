@@ -11,49 +11,102 @@
   <script src="https://kit.fontawesome.com/b76b43162d.js" crossorigin="anonymous"></script>
 </head>
 
-<body>
+<body x-data="editorData">
+  <nav class="navbar" role="navigation" aria-label="main navigation">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="#"></a>
 
-  <section class="section">
-    <div class="container" x-data="editorData">
-      <div id="editor-container" style="height:87vh;border:1px solid grey"></div>
-      <div class="field">
-        <label class="label">Language</label>
-        <div class="select is-success">
-          <select id="language-options" x-model="language" x-on:change="onLanguageChange">
-            <option value="python">Python</option>
-            <option value="rust">Rust</option>
-            <option value="cpp">C++</option>
-          </select>
+      <a role="button" class="navbar-burger" data-target="navMenu" aria-label="menu" aria-expanded="false">
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </a>
+    </div>
+    <div class="navbar-menu" id="navMenu">
+      <div class="navbar-start">
+        <!-- navbar items -->
+        <div :class="showLangsDropdown ? 'navbar-item has-dropdown is-active' : 'navbar-item has-dropdown'">
+          <a class="navbar-link" href="#" x-on:click="onLangsClick">Langs</a>
+          <div class="navbar-dropdown is-boxed">
+            <a class="navbar-item" href="#" x-on:click="setLanguage('python')">Python</a>
+            <a class="navbar-item" href="#" x-on:click="setLanguage('rust')">Rust</a>
+            <a class="navbar-item" href="#" x-on:click="setLanguage('javascript')">JavaScript</a>
+            <a class="navbar-item" href="#" x-on:click="setLanguage('cpp')">C++</a>
+          </div>
         </div>
       </div>
+
+      <div class="navbar-end">
+        <!-- navbar items -->
+      </div>
     </div>
-  </section>
+  </nav>
+
+  <div id="editor-container" style="height:92vh;border:1px solid grey"></div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.5/require.min.js"
     integrity="sha256-0SGl1PJNDyJwcV5T+weg2zpEMrh7xvlwO4oXgvZCeZk=" crossorigin="anonymous"></script>
   <script src="/node_modules/monaco-editor/min/vs/loader.js"></script>
   <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      // Get all "navbar-burger" elements
+      const $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll(".navbar-burger"), 0);
+
+      // Add a click event on each of them
+      $navbarBurgers.forEach(el => {
+        el.addEventListener("click", () => {
+
+          // Get the target from the "data-target" attribute
+          const target = el.dataset.target;
+          const $target = document.getElementById(target);
+
+          // Toggle the "is-active" class on both the "navbar-burger" and the "navbar-menu"
+          el.classList.toggle("is-active");
+          $target.classList.toggle("is-active");
+
+        });
+      });
+
+    });
+
     document.addEventListener("alpine:init", () => {
       Alpine.data("editorData", () => ({
+        showLangsDropdown: false,
         language: "python",
 
         init() {
         },
 
-        onLanguageChange(e) {
+        setLanguage(lang) {
+          this.language = lang;
           monaco.editor.setModelLanguage(window.editor.getModel(), this.language);
+          this.showLangsDropdown = false;
+        },
+
+        onLangsClick(e) {
+          this.showLangsDropdown = !this.showLangsDropdown;
         }
       }));
     });
 
-    require.config({ paths: { vs: '/node_modules/monaco-editor/min/vs' } });
-    require(['vs/editor/editor.main'], function () {
-      var editor = monaco.editor.create(document.getElementById('editor-container'), {
-        value: ['def hello():', '    print("Hello world")', '', 'if __name__ == "__main__":', '    hello()'].join('\n'),
-        language: 'python'
+    require.config({ paths: { vs: "/node_modules/monaco-editor/min/vs" } });
+    require(["vs/editor/editor.main"], function () {
+      var editor = monaco.editor.create(document.getElementById("editor-container"), {
+        value: "",
+        language: "python",
+        automaticLayout: true,
       });
 
       window.editor = editor;
+
+      window.editor.addCommand(
+        monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyK, // Ctrl+P or Cmd+P
+        function () {
+          // Trigger the built-in command palette command
+          window.editor.trigger("keyboard", "editor.action.quickCommand", null);
+        }
+      );
     });
   </script>
 
