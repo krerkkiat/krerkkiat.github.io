@@ -27,12 +27,20 @@
       <div class="navbar-start">
         <!-- navbar items -->
         <div :class="showLangsDropdown ? 'navbar-item has-dropdown is-active' : 'navbar-item has-dropdown'">
-          <a class="navbar-link" href="#" x-on:click="onLangsClick">Langs</a>
+          <a class="navbar-link" href="#" x-on:click="onLangsClick">Langs: <span x-text="language"></span></a>
           <div class="navbar-dropdown is-boxed">
+            <a class="navbar-item" href="#" x-on:click="setLanguage('plaintext')">Plaintext</a>
+            <a class="navbar-item" href="#" x-on:click="setLanguage('cpp')">C++</a>
+            <a class="navbar-item" href="#" x-on:click="setLanguage('dockerfile')">Dockerfile</a>
+            <a class="navbar-item" href="#" x-on:click="setLanguage('html')">HTML</a>
+            <a class="navbar-item" href="#" x-on:click="setLanguage('javascript')">JavaScript</a>
+            <a class="navbar-item" href="#" x-on:click="setLanguage('markdown')">Markdown</a>
             <a class="navbar-item" href="#" x-on:click="setLanguage('python')">Python</a>
             <a class="navbar-item" href="#" x-on:click="setLanguage('rust')">Rust</a>
-            <a class="navbar-item" href="#" x-on:click="setLanguage('javascript')">JavaScript</a>
-            <a class="navbar-item" href="#" x-on:click="setLanguage('cpp')">C++</a>
+            <a class="navbar-item" href="#" x-on:click="setLanguage('shell')">Shell</a>
+            <a class="navbar-item" href="#" x-on:click="setLanguage('json')">JSON</a>
+            <a class="navbar-item" href="#" x-on:click="setLanguage('xml')">XML</a>
+            <a class="navbar-item" href="#" x-on:click="setLanguage('yaml')">YAML</a>
           </div>
         </div>
       </div>
@@ -43,7 +51,10 @@
     </div>
   </nav>
 
-  <div id="editor-container" style="height:92vh;border:1px solid grey"></div>
+  <div id="editor-container" style="height:90vh;border:1px solid grey"></div>
+  <div>
+    <button class="button is-small" x-on:click="sendCtrlK">Ctrl+K</button>
+  </div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.5/require.min.js"
     integrity="sha256-0SGl1PJNDyJwcV5T+weg2zpEMrh7xvlwO4oXgvZCeZk=" crossorigin="anonymous"></script>
@@ -73,7 +84,7 @@
     document.addEventListener("alpine:init", () => {
       Alpine.data("editorData", () => ({
         showLangsDropdown: false,
-        language: "python",
+        language: "plaintext",
 
         init() {
         },
@@ -82,6 +93,11 @@
           this.language = lang;
           monaco.editor.setModelLanguage(window.editor.getModel(), this.language);
           this.showLangsDropdown = false;
+        },
+
+        sendCtrlK(e) {
+          window.editor.focus();
+          window.editor.trigger("", "editor.action.quickCommand", null);
         },
 
         onLangsClick(e) {
@@ -94,7 +110,7 @@
     require(["vs/editor/editor.main"], function () {
       var editor = monaco.editor.create(document.getElementById("editor-container"), {
         value: "",
-        language: "python",
+        language: "plaintext",
         automaticLayout: true,
       });
 
