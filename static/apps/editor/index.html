@@ -106,7 +106,8 @@
       }));
     });
 
-    require.config({ paths: { vs: "/node_modules/monaco-editor/min/vs" } });
+    // Relative path does not work. See github.com/monaco-editor/issues/4778
+    require.config({ paths: { vs: window.location.origin + "/node_modules/monaco-editor/min/vs" } });
     require(["vs/editor/editor.main"], function () {
       var editor = monaco.editor.create(document.getElementById("editor-container"), {
         value: "",
