@@ -11,4 +11,7 @@
     <url>
         <loc>{{ get_url(path='apps/create-password', trailing_slash=true) }}</loc>
     </url>
+    <url>
+        <loc>{{ get_url(path='apps/text-ops', trailing_slash=true) }}</loc>
+    </url>
 </urlset>
