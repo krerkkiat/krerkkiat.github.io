@@ -62,6 +62,7 @@
       <div x-show="activeTab === 'cases'">
         <button @click="toLowerCase" class="button is-primary">To lowercase</button>
         <button @click="toUpperCase" class="button is-primary">To UPPERCASE</button>
+        <button @click="toStartCase" class="button is-primary">To Start Case</button>
       </div>
 
     </div>
@@ -127,6 +128,8 @@
         onPredefinedOptionChange(e) {
           if (this.predefinedOption === "compose-escape") {
             this.pattern = "$";
+            // There are four $ because we are using JS's regex for replacing, so we need to escape $ with $$.
+            // Two $ then become four.
             this.replacement = "$$$$";
           } else if (this.predefinedOption === "csv-comma-to-latex-tabular-ampersand") {
             this.pattern = ",";
@@ -146,6 +149,21 @@
           this.pastEntries.push({text: this.text, pattern: this.pattern, replacement: this.replacement});
           this.text = this.text.toUpperCase();
         },
+
+        toStartCase(e) {
+          this.pastEntries.push({text: this.text, pattern: this.pattern, replacement: this.replacement});
+          const tokens = this.text.split(" ");
+          var newTokens = [];
+          for (var i = 0; i < tokens.length; i++) {
+            if (tokens[i].length > 0) {
+              var firstChar = tokens[i][0].toUpperCase();
+              newTokens.push(firstChar + tokens[i].substring(1));
+            } else {
+              newTokens.push(tokens[i]);
+            }
+          }
+          this.text = newTokens.join(" ");
+        }
 
       }));
     });
