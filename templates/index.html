@@ -13,52 +13,56 @@
 {% endblock %}
 
 {% block raw_body %}
-<section class="section">
-  <div class="columns">
-    <div class="column is-half">
-      <div class="container">
-        <h2 class="title is-3">Posts</h2>
-        <p class="block mt-4">Want to hear my recent stories and random thoughts?</p>
-        <ul class="block mt-3">
-          {% set blogs = get_section(path="blog/_index.md") %}
-          {% for page in blogs.pages | slice(end=5) %}
-          <li class="m-1"><span>{{ page.date }}</span> <a href="{{ page.permalink | safe }}">{{ page.title }}</a></li>
-          {% endfor %}
-        </ul>
-        <a href="{{ get_url(path='blog') }}">View all ...</a>
+<div class="container">
+  <section class="section">
+    <div class="columns">
+      <div class="column is-half">
+        <div class="container">
+          <h2 class="title is-3">Posts</h2>
+          <p class="block mt-4">Want to hear my recent stories and random thoughts?</p>
+          <ul class="block mt-3">
+            {% set blogs = get_section(path="blog/_index.md") %}
+            {% for page in blogs.pages | slice(end=5) %}
+            <li class="m-1"><span>{{ page.date }}</span> <a href="{{ page.permalink | safe }}">{{ page.title }}</a></li>
+            {% endfor %}
+          </ul>
+          <a href="{{ get_url(path='blog') }}">View all ...</a>
+        </div>
+      </div>
+      <div class="column is-half">
+        <div class="container">
+          <h2 class="title is-3">Apps</h2>
+          <p class="block mt-4">Some are self-built. Some are just me hosting them to see how they work. You could also
+            call them tools
+            rather than apps. I went with apps because it is shorter for thr url.</p>
+          <ul class="block mt-3">
+            <li class="m-1"><a href="{{ get_url(path='apps/create-password', trailing_slash=true) }}">Password
+                Generator</a></li>
+            <li class="m-1"><a href="{{ get_url(path='apps/text-ops', trailing_slash=true) }}">Text Operations</a></li>
+            <li class="m-1"><a href="{{ get_url(path='apps/editor', trailing_slash=true) }}">Editor</a></li>
+            <li class="m-1"><a href="{{ get_url(path='apps/term', trailing_slash=true) }}">Terminal</a></li>
+          </ul>
+        </div>
       </div>
     </div>
-    <div class="column is-half">
-      <div class="container">
-        <h2 class="title is-3">Apps</h2>
-        <p class="block mt-4">Some are self-built. Some are just me hosting them to see how they work. You could also call them tools
-        rather than apps. I went with apps because it is shorter for thr url.</p>
-        <ul class="block mt-3">
-          <li class="m-1"><a href="{{ get_url(path='apps/create-password', trailing_slash=true) }}">Password Generator</a></li>
-          <li class="m-1"><a href="{{ get_url(path='apps/text-ops', trailing_slash=true) }}">Text Operations</a></li>
-          <li class="m-1"><a href="{{ get_url(path='apps/editor', trailing_slash=true) }}">Editor</a></li>
-          <li class="m-1"><a href="{{ get_url(path='apps/term', trailing_slash=true) }}">Terminal</a></li>
-        </ul>
+    <div class="columns">
+      <div class="column is-four-fifths">
+        <div class="container">
+          <h2 class="title is-3">About</h2>
+          <p class="block mt-4">He is a Ph.D student at
+            <a href="https://www.ohio.edu" target="_blank">Ohio University</a>.
+            He manages to spend more running
+            <a href="https://tsaou.page" target="_blank">
+              OU Thai Student Association's website
+            </a>
+            on its own domain (he should just use Linktree). He thought it was fun
+            to help run a conference and also live debugging production codebase for
+            said conference. He loves to spend months automate task that only takes
+            few hours.
+          </p>
+        </div>
       </div>
     </div>
-  </div>
-  <div class="columns">
-    <div class="column is-four-fifths">
-      <div class="container">
-        <h2 class="title is-3">About</h2>
-        <p class="block mt-4">He is a Ph.D student at
-          <a href="https://www.ohio.edu" target="_blank">Ohio University</a>.
-          He manages to spend more running
-          <a href="https://tsaou.page" target="_blank">
-            OU Thai Student Association's website
-          </a>
-          on its own domain (he should just use Linktree). He thought it was fun
-          to help run a conference and also live debugging production codebase for
-          said conference. He loves to spend months automate task that only takes
-          few hours.
-        </p>
-      </div>
-    </div>
-  </div>
-</section>
+  </section>
+</div>
 {% endblock %}

@@ -13,3 +13,9 @@ to build the website. For a local development server,
 ```console
 zola serve
 ```
+
+## Test
+
+```console
+npm run test
+```
