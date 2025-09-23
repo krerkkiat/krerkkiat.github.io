@@ -1,25 +1,24 @@
-const textOps = require("../static/apps/text-ops/textOps");
+import { test } from 'node:test';
+import { strict as assert } from 'node:assert';
 
-describe("text-ops", () => {
-    let instance;
+import { textOps } from "../apps/text-ops/textOps.js";
 
-    beforeEach(() => {
-        instance = textOps()
-    });
+test("should convert to lowercase", () => {
+    let instance = textOps();
 
-    test("should convert to lowercase", () => {
-        expect(instance.text).toBe("");
-        instance.text = "PRIVATE_KEY";
-        instance.toLowerCase({});
+    assert.strictEqual(instance.text, "");
+    instance.text = "PRIVATE_KEY";
+    instance.toLowerCase({});
 
-        expect(instance.text).toBe("private_key");
-    });
+    assert.strictEqual(instance.text, "private_key");
+});
 
-    test("should convert to start case", () => {
-        expect(instance.text).toBe("");
-        instance.text = "PRIVATE_KEY PUBLIC_KEY";
-        instance.toStartCase({});
+test("should convert to start case", () => {
+    let instance = textOps();
 
-        expect(instance.text).toBe("Private_key Public_key");
-    });
+    assert.strictEqual(instance.text, "");
+    instance.text = "PRIVATE_KEY PUBLIC_KEY";
+    instance.toStartCase({});
+
+    assert.strictEqual(instance.text, "Private_key Public_key");
 });
