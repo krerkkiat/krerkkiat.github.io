@@ -8,11 +8,12 @@ const __dirname = dirname(fileURLToPath(import.meta.url))
 
 export default defineConfig({
   build: {
-    manifest: true,
+    manifest: false,
     rollupOptions: {
       input: {
         // main: resolve(__dirname, 'templates/index.html'),
         textOps: resolve(__dirname, 'apps/text-ops/index.html'),
+        createPassword: resolve(__dirname, 'apps/create-password/index.html'),
       },
     },
     // To not clear the static folder.
