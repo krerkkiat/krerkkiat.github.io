@@ -15,6 +15,7 @@ export default defineConfig({
         textOps: resolve(__dirname, 'apps/text-ops/index.html'),
       },
     },
+    // To not clear the static folder.
     emptyOutDir: false,
     outDir: 'static',
   },
