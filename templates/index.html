@@ -26,7 +26,8 @@
             <li class="m-1"><span>{{ page.date }}</span> <a href="{{ page.permalink | safe }}">{{ page.title }}</a></li>
             {% endfor %}
           </ul>
-          <a href="{{ get_url(path='blog') }}">View all ...</a>
+          <a href="{{ get_url(path='blog') }}">All posts</a> | 
+          <a href="{{ get_url(path='tags') }}">All tags</a>
         </div>
       </div>
       <div class="column is-half">

@@ -2,8 +2,9 @@
 title = "My favorite fictional works"
 date = 2025-09-23
 authors = ["Krerkkiat Chusap"]
+
 [taxonomies]
-tags==["random-thought"]
+tags=["random-thought"]
 +++
 
 Throughout my years in high school and college, I spent a lot of

@@ -2,8 +2,9 @@
 title = "Murim in the year 2100"
 date = 2025-03-01
 authors = ["Krerkkiat Chusap"]
+
 [taxonomies]
-tags==["random-thought"]
+tags=["random-thought"]
 +++
 
 A tall figure move quickly through the bamboo forest. After them are five shadows moving along

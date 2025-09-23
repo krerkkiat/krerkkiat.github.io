@@ -6,6 +6,13 @@
 </h1>
 <p class="subtitle"><strong>{{ page.authors | join(sep=", ") }}</strong></p>
 <p>Published on {{ page.date }}{% if page.updated %} (last updated {{ page.updated }}){% endif %}</p>
+{% if page.taxonomies %}
+{% for taxonomyName, terms in page.taxonomies %}
+<p>
+  {{ taxonomyName }}: {% for term in terms %}<a href="{{ get_url(path=taxonomyName ~ '/' ~ term) }}">{{ term }}</a>{% if not loop.last %}, {% endif %}{% endfor %}
+</p>
+{% endfor %}
+{% endif %}
 <div class="content mt-6">
   {{ page.content | safe }}
 </div>
