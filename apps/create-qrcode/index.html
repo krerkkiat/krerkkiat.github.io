@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>QR Code Generator</title>
+
+  <link rel="stylesheet" href="/css/bulma.min.css">
+  <script src="https://kit.fontawesome.com/b76b43162d.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+
+  <section class="section">
+    <div x-data="qrcodeApp" class="container">
+      <div class="tabs">
+        <ul>
+          <li :class="activeInputTab === 'text' ? 'is-active' : ''"><a x-on:click="changeInputTab('text')">Text</a></li>
+          <li :class="activeInputTab === 'email' ? 'is-active' : ''"><a x-on:click="changeInputTab('email')">Email</a>
+          </li>
+        </ul>
+      </div>
+
+      <div x-show="activeInputTab === 'text'">
+        <div class="block">
+          <textarea x-model="text" class="textarea" rows="5" placeholder="Text"></textarea>
+          <p x-text="text.length"></p>
+        </div>
+      </div>
+
+      <div x-show="activeInputTab === 'email'">
+        <div class="field">
+          <label class="label">Email Address</label>
+          <div class="control">
+            <input x-model="emailAddress" class="input" type="email">
+          </div>
+        </div>
+        <div class="field">
+          <label class="label">Subject</label>
+          <div class="control">
+            <input x-model="emailSubject" class="input" type="text">
+          </div>
+        </div>
+        <div class="field">
+          <label class="label">Message</label>
+          <div class="control">
+            <textarea x-model="emailMessage" class="textarea"></textarea>
+          </div>
+        </div>
+      </div>
+
+      <div class="tabs">
+        <ul>
+          <li :class="activeOptionTab === 'options' ? 'is-active' : ''"><a
+              x-on:click="changeOptionTab('options')">Options</a></li>
+          <li :class="activeOptionTab === 'advanced-options' ? 'is-active' : ''"><a
+              x-on:click="changeOptionTab('advanced-options')">Advanced Options</a></li>
+        </ul>
+      </div>
+
+      <div x-show="activeOptionTab === 'options'" class="mb-3">
+
+        <div class="field">
+          <label class="label">Size</label>
+          <div class="select is-success">
+            <select id="size-option" x-model="sizeOption" x-on:change="onSizeOptionChange">
+              <option value="64px">64 px</option>
+              <option value="128px">128 px</option>
+              <option value="512px">512 px</option>
+              <option value="1024px">1024 px</option>
+              <option value="custom">Custom</option>
+            </select>
+          </div>
+        </div>
+
+        <div x-show="showCustomSize === true">
+          <div class="field">
+            <label class="label">Size (px)</label>
+            <div class="control">
+              <input x-model="size" class="input" type="number">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div x-show="activeOptionTab === 'advanced-options'" class="mb-3">
+        <div class="field">
+          <label class="label">Error Correction Level</label>
+          <div class="select is-success">
+            <select id="error-correction-level" x-model="errorCorrectionOption">
+              <option value="L">L</option>
+              <option value="M">M</option>
+              <option value="Q">Q</option>
+              <option value="H">H</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <button @click="generate" class="button is-primary">Generate</button>
+      <hr/>
+      <div x-show="qrCodeImageURI !== ''">
+        <img :src="qrCodeImageURI" alt="QR Code"></img>
+      </div>
+    </div>
+
+  </section>
+
+  <script type="module" src="./main.js"></script>
+</body>
+
+</html>

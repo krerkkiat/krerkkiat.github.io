@@ -14,6 +14,7 @@ export default defineConfig({
         // main: resolve(__dirname, 'templates/index.html'),
         textOps: resolve(__dirname, 'apps/text-ops/index.html'),
         createPassword: resolve(__dirname, 'apps/create-password/index.html'),
+        createQrCode: resolve(__dirname, 'apps/create-qrcode/index.html'),
       },
     },
     // To not clear the static folder.
