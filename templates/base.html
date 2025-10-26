@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="gray-scale-mode">
 
 <head>
   <meta charset="utf-8">
@@ -14,6 +14,13 @@
   <link rel="stylesheet" href="/css/bulma.min.css">
   <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
   <script src="https://kit.fontawesome.com/b76b43162d.js" crossorigin="anonymous"></script>
+
+  <style>
+    .gray-scale-mode {
+      filter: grayscale(100%);
+      -webkit-filter: grayscale(100%);
+    }
+  </style>
 
   <title>Krerkkiat Chusap</title>
   {% block head %}{% endblock %}

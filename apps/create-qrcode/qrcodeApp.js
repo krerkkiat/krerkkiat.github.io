@@ -1,6 +1,7 @@
 import { QRCodeCanvas } from "@cheprasov/qrcode";
 
 // TODO: Implement the rest of content https://github.com/zxing/zxing/wiki/Barcode-Contents
+// For WiFi, https://qifi.org/
 export function qrcodeApp() {
     return {
         activeInputTab: "text",
