@@ -17,7 +17,33 @@
 </head>
 
 <body>
+  <nav x-data="mainNav" class="navbar sticky-header" role="navigation" aria-label="main navigation">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="/">
+        <img src="/imgs/profile-pic-50x50.png" alt="Krerkkiat's Logo" />
+        Krerkkiat Chusap
+      </a>
 
+      <a @click="toggle" role="button" :class="{ 'navbar-burger': true, 'is-active': open }" aria-label="menu"
+        aria-expanded="false" data-target="nav-menu">
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </a>
+    </div>
+
+    <div id="nav-menu" :class="{ 'navbar-menu': true, 'is-active': open }">
+      <div class="navbar-start">
+        <a class="navbar-item" href="/blog">
+          Posts
+        </a>
+        <a class="navbar-item" href="/apps">
+          Apps
+        </a>
+      </div>
+    </div>
+  </nav>
   <section class="section">
     <div x-data="qrcodeApp" class="container">
       <div class="tabs">

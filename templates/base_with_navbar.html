@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en" class="gray-scale-mode">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="shortcut icon" href="/favicon.ico" />
+  <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+  <meta name="apple-mobile-web-app-title" content="Krerkkiat Chusap" />
+  <link rel="manifest" href="/site.webmanifest" />
+
+  <link rel="stylesheet" href="/css/bulma.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <script src="https://kit.fontawesome.com/b76b43162d.js" crossorigin="anonymous"></script>
+
+  <style>
+    .gray-scale-mode {
+      filter: grayscale(100%);
+      -webkit-filter: grayscale(100%);
+    }
+  </style>
+
+  <title>Krerkkiat Chusap</title>
+  {% block head %}{% endblock %}
+</head>
+
+<body x-data="theme">
+  <button @click="toggleTheme" style="position: fixed; top: 3%; right: 5%; z-index: 50;">
+    <i x-show="isLightTheme" class="fa-solid fa-moon is-size-3 p-2"></i>
+    <i x-show="!isLightTheme" class="fa-solid fa-sun is-size-3 p-2"></i>
+  </button>
+  <nav x-data="main_nav_data" class="navbar sticky-header" role="navigation" aria-label="main navigation">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="/">
+        {% set image = resize_image(path='static/imgs/profile-pic.png', width=50, op='fit_width') %}
+        <img src="{{ image.url }}" alt="Krerkkiat's Logo" />
+        Krerkkiat Chusap
+      </a>
+
+      <a @click="toggle" role="button" :class="{ 'navbar-burger': true, 'is-active': open }" aria-label="menu"
+        aria-expanded="false" data-target="nav-menu">
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </a>
+    </div>
+
+    <div id="nav-menu" :class="{ 'navbar-menu': true, 'is-active': open }">
+      <div class="navbar-start">
+        <a class="navbar-item" href="/blog">
+          Posts
+        </a>
+        <a class="navbar-item" href="/apps">
+          Apps
+        </a>
+      </div>
+    </div>
+  </nav>
+  <section class="section">
+    <div class="container">
+      {% block content %}{% endblock %}
+    </div>
+  </section>
+  {% block raw_body %}{% endblock %}
+  <footer class="footer">
+    <div class="content has-text-centered">
+      <p>Copyright 2025</p>
+    </div>
+  </footer>
+
+  <script>
+    document.addEventListener("alpine:init", () => {
+      // Detect existing dark theme and assign proper `data-theme` to the `html` tag.
+      const topLevelTag = document.getElementsByTagName("html")[0];
+      let detectedTheme = "";
+      if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        topLevelTag.setAttribute("data-theme", "dark");
+        detectedTheme = "dark";
+      } else {
+        topLevelTag.setAttribute("data-theme", "light");
+        detectedTheme = "light";
+      }
+
+      Alpine.data("theme", () => ({
+        isLightTheme: detectedTheme === "light",
+        toggleTheme() {
+          this.isLightTheme = !this.isLightTheme;
+          const topLevelTag = document.getElementsByTagName("html")[0];
+          topLevelTag.setAttribute("data-theme", this.isLightTheme ? "light" : "dark");
+        }
+      }));
+
+      Alpine.data("main_nav_data", () => ({
+        open: false,
+        toggle() {
+          this.open = !this.open
+        }
+      }));
+    });
+  </script>
+</body>
+
+</html>
