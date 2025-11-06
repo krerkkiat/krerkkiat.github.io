@@ -8,6 +8,10 @@
     <p class="title">Krerkkiat Chusap</p>
     <p class="subtitle">A Ph.D student studying robustness of reinforcement learning (RL) algorithms at <a
         href="https://www.ohio.edu" target="_blank">Ohio University</a></p>
+    <p>
+      <a href="https://github.com/krerkkiat" target="_blank" class="m-2"><i class="fa-brands fa-github fa-2xl"></i></a>
+      <a href="/apps/create-qrcode/?input-tab=line" target="_blank" class="m-2"><i class="fa-brands fa-line fa-2xl"></i></a>
+    </p>
   </div>
 </section>
 {% endblock %}
@@ -26,7 +30,7 @@
             <li class="m-1"><span>{{ page.date }}</span> <a href="{{ page.permalink | safe }}">{{ page.title }}</a></li>
             {% endfor %}
           </ul>
-          <a href="{{ get_url(path='blog') }}">All posts</a> | 
+          <a href="{{ get_url(path='blog') }}">All posts</a> |
           <a href="{{ get_url(path='tags') }}">All tags</a>
         </div>
       </div>
@@ -39,7 +43,8 @@
           <ul class="block mt-3">
             <li class="m-1"><a href="{{ get_url(path='apps/create-password', trailing_slash=true) }}">Password
                 Generator</a></li>
-            <li class="m-1"><a href="{{ get_url(path='apps/create-qrcode', trailing_slash=true) }}">QR Code Generator</a></li>
+            <li class="m-1"><a href="{{ get_url(path='apps/create-qrcode', trailing_slash=true) }}">QR Code
+                Generator</a></li>
             <li class="m-1"><a href="{{ get_url(path='apps/text-ops', trailing_slash=true) }}">Text Operations</a></li>
           </ul>
           <a href="{{ get_url(path='apps') }}">All apps</a>

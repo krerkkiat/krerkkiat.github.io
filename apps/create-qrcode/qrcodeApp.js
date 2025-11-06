@@ -16,11 +16,16 @@ export function qrcodeApp() {
 
         errorCorrectionOption: "M",
         
+        //
         // Input data.
+        //
         text: "",
+        // Email.
         emailAddress: "",
         emailSubject: "",
         emailMessage: "",
+        // LINE.
+        lineCode: "",
 
         init() {
             let queryParams = new URLSearchParams(window.location.search);
@@ -89,6 +94,8 @@ export function qrcodeApp() {
                         payload += `${element['name']}=${encodeURIComponent(element['value'])}`
                     }
                 });
+            } else if (this.activeInputTab === "line") {
+                payload = `https://line.me/ti/p/${this.lineCode}`;
             } else {
                 return;
             }

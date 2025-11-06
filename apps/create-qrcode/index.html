@@ -51,6 +51,8 @@
           <li :class="activeInputTab === 'text' ? 'is-active' : ''"><a x-on:click="changeInputTab('text')">Text</a></li>
           <li :class="activeInputTab === 'email' ? 'is-active' : ''"><a x-on:click="changeInputTab('email')">Email</a>
           </li>
+          <li :class="activeInputTab === 'line' ? 'is-active' : ''"><a x-on:click="changeInputTab('line')">LINE</a>
+          </li>
         </ul>
       </div>
 
@@ -78,6 +80,15 @@
           <label class="label">Message</label>
           <div class="control">
             <textarea x-model="emailMessage" class="textarea"></textarea>
+          </div>
+        </div>
+      </div>
+
+      <div x-show="activeInputTab === 'line'">
+        <div class="field">
+          <label class="label">Code</label>
+          <div class="control">
+            <input x-model="lineCode" class="input" type="text">
           </div>
         </div>
       </div>
@@ -131,7 +142,7 @@
       </div>
 
       <button @click="generate" class="button is-primary">Generate</button>
-      <hr/>
+      <hr />
       <div x-show="qrCodeImageURI !== ''">
         <img :src="qrCodeImageURI" alt="QR Code"></img>
       </div>
