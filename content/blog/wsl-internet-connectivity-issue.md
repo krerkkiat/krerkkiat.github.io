@@ -4,7 +4,7 @@ date = 2025-10-29
 authors = ["Krerkkiat Chusap"]
 
 [taxonomies]
-tags = ["wsl"]
+tags = ["wsl", "problem"]
 +++
 
 Sometimes, my `ping 8.8.8.8` command running in the WSL will just hang there. Usually `wsl --shutdown` and re-open it will work in solving the issue.
