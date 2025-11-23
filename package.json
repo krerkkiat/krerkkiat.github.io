@@ -4,6 +4,7 @@
     "@xterm/xterm": "^5.5.0",
     "alpinejs": "^3.15.0",
     "bcryptjs": "^3.0.2",
+    "decimal.js": "10.6.0",
     "monaco-editor": "^0.52.2",
     "wasm-webterm": "github:cryptool-org/wasm-webterm"
   },

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en" class="gray-scale-mode">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Capital Needed</title>
+
+  <link rel="stylesheet" href="/css/bulma.min.css">
+  <script src="https://kit.fontawesome.com/b76b43162d.js" crossorigin="anonymous"></script>
+
+  <style>
+    .gray-scale-mode {
+      filter: grayscale(100%);
+      -webkit-filter: grayscale(100%);
+    }
+  </style>
+</head>
+
+<body>
+  <nav x-data="mainNav" class="navbar sticky-header" role="navigation" aria-label="main navigation">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="/">
+        <img src="/imgs/profile-pic-50x50.png" alt="Krerkkiat's Logo" />
+        Krerkkiat Chusap
+      </a>
+
+      <a @click="toggle" role="button" :class="{ 'navbar-burger': true, 'is-active': open }" aria-label="menu"
+        aria-expanded="false" data-target="nav-menu">
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </a>
+    </div>
+
+    <div id="nav-menu" :class="{ 'navbar-menu': true, 'is-active': open }">
+      <div class="navbar-start">
+        <a class="navbar-item" href="/blog">
+          Posts
+        </a>
+        <a class="navbar-item" href="/apps">
+          Apps
+        </a>
+      </div>
+    </div>
+  </nav>
+  <section class="section">
+    <div class="container">
+      <div x-data="capitalNeededApp" class="block">
+        <div class="field">
+          <label class="label">Interest</label>
+          <div class="control">
+            <input x-model="interest" @input.debounce="onInputsChange" class="input" type="text">
+          </div>
+        </div>
+        <div class="field">
+          <label class="label">Interest Rate (%)</label>
+          <div class="control">
+            <input x-model="interestRate" @input.debounce="onInputsChange" class="input" type="text">
+          </div>
+        </div>
+        <div class="field">
+          <label class="label">Capital needed to obtain said interest</label>
+          <div class="control">
+            <input x-model="capital" class="input" type="text" disabled>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <script type="module" src="./main.js"></script>
+</body>
+
+</html>
