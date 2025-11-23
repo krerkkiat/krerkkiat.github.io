@@ -148,8 +148,8 @@ export function passwordApp() {
             navigator.clipboard.writeText(payload).then(function () {
 
             }, function (err) {
-                console.error('Could not copy text: ', err);
-            })
+                console.error("Could not copy text: ", err);
+            });
         },
 
         hash() {
